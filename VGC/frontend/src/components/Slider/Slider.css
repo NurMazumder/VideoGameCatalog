@@ -1,0 +1,31 @@
+.slider-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
+
+.slider-table {
+  margin: 4px;
+}
+
+#slider-header {
+  color: white;
+  text-align: left;
+  font-size: large;
+  font-family: "Courier New", Courier, monospace;
+  font-style: italic;
+}
+
+#view-link {
+  color: white;
+  text-align: right;
+  font-size: medium;
+  font-family: "Courier New", Courier, monospace;
+  font-style: italic;
+  padding-top: 10px;
+}
+
+#view-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
