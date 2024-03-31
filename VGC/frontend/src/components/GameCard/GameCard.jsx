@@ -8,7 +8,7 @@ const GameCard = (props) => {
   return (
     <div className="card-container" onClick={onClick} data-testid="game-card">
       {isValidImage ? (
-        <img src={props.image} alt="Game Image" id="game-image" />
+        <img src={props.image} alt="Game Image" id="game-card-image" />
       ) : (
         <p>Error Processing Image</p>
       )}
