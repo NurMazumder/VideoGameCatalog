@@ -1,5 +1,8 @@
 .page-container {
   border: 3px solid #9f94aa;
+  position: absolute;
+  top: 10%;
+  left: 2.5%;
 }
 .page-table {
   background-color: #1f1f1f;

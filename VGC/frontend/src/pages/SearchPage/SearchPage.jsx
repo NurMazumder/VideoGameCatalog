@@ -1,42 +1,47 @@
 import React, { useState, useEffect } from "react";
 import "./SearchPage.css";
 import GameCard from "../../components/GameCard/GameCard";
-import GameInfoModal from "../../components/GameInfoModal/GameInfoModal";
 
-const SearchPage = ({ gameList }) => {
-  const [modalGame, setModalGame] = useState(null);
-  // Open modal when game card is clicked
-  const handleGameCardClick = (game) => {
-    setModalGame(game);
-  };
-  // Close modal when modal background is clicked
-  const handleModalClick = () => {
-    setModalGame(null);
-  };
-  const gameRows = gameList.reduce((rows, game, index) => {
-    if (index % 5 === 0) {
-      rows.push([]);
-    }
-    rows[rows.length - 1].push(game);
-    return rows;
+const SearchPage = () => {
+  const [gamesList, setGamesList] = useState([]);
+  const [gameRows, setGameRows] = useState([]);
+  const [filteredGamesList, setFilteredGamesList] = useState([]);
+  // get list of games
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await fetch(`http://localhost:5030/api/games`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch games");
+        }
+        const json = await response.json();
+        setGamesList(json);
+        console.log(gamesList);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+    };
+    fetchGames();
   }, []);
+  // Organize games into rows of 4
+  useEffect(() => {
+    const organizeGamesToRows = () => {
+      const rows = [];
+      for (let i = 0; i < gamesList.length; i += 4) {
+        rows.push(gamesList.slice(i, i + 4));
+      }
+      return rows;
+    };
+    setGameRows(organizeGamesToRows());
+    console.log(gameRows);
+  }, [gamesList]);
   return (
     <div className="page-container">
-      {modalGame && (
-        <GameInfoModal
-          image={modalGame.image}
-          title={modalGame.title}
-          description={modalGame.description}
-          releaseDate={modalGame.releaseDate}
-          price={modalGame.price}
-          onClick={handleModalClick}
-        />
-      )}
       <table className="page-table">
         <thead>
           <tr>
-            <th id="page-header">Games Found:</th>
-            <th colSpan="5"></th>
+            <th id="page-header">Games Found: {gamesList.length}</th>
+            <th colSpan="3"></th>
           </tr>
         </thead>
         <tbody>
@@ -45,12 +50,10 @@ const SearchPage = ({ gameList }) => {
               {row.map((game, index) => (
                 <td key={index}>
                   <GameCard
-                    image={game.image}
-                    title={game.title}
-                    description={game.description}
-                    releaseDate={game.releaseDate}
-                    price={game.price}
-                    onClick={() => handleGameCardClick(game)}
+                    image={game.game_background_image}
+                    title={game.game_name}
+                    releaseDate={game.game_released}
+                    id={game.rawg_id}
                   />
                 </td>
               ))}

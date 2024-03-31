@@ -13,7 +13,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage gameList={gameList} />} />
-          <Route path="/search" element={<SearchPage gameList={gameList} />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/game/:id" element={<GamePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
