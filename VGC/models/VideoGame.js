@@ -12,7 +12,7 @@ const videoGameSchema = new Schema({
     }, 
     description: {
         type: String,
-        required: true
+        
     },
     released: Date,
     backgroundImage: {
