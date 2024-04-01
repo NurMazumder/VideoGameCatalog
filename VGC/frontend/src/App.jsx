@@ -5,6 +5,8 @@ import Home from "./components/layout/Home";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import SearchPage from "./pages/SearchPage/SearchPage";
+import GamePage from "./pages/GamePage/GamePage";
 import "./App.css";
 import "./components/auth/Auth.css";
 
@@ -19,7 +21,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           {/* need  different path */}
           {/*<Route path="/" element={<MainPage gameList={gameList} />} /> */}
-
           <Route path="/search" element={<SearchPage />} />
           <Route path="/game/:id" element={<GamePage />} />
           <Route path="*" element={<NotFoundPage />} />
