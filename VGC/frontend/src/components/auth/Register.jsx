@@ -1,8 +1,9 @@
 import React from "react";
+import "./Auth.css";
 
 const Register = () => {
   return (
-    <React.Fragment>
+    <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign Up</h2>
         <form action="#">
@@ -24,7 +25,7 @@ const Register = () => {
           Already Have an Account? <a href="/Login">Sign In</a>
         </p>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

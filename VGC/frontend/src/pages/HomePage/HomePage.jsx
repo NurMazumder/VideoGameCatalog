@@ -1,7 +1,8 @@
 import React from "react";
+import "./HomePage.css";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <section className="landing">
       <div className="dark-overlay">
@@ -24,4 +25,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

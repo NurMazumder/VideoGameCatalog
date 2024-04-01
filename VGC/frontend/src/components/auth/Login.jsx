@@ -1,8 +1,9 @@
 import React from "react";
+import "./Auth.css";
 
-const login = () => {
+const Login = () => {
   return (
-    <React.Fragment>
+    <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign In</h2>
         <form action="#">
@@ -20,8 +21,8 @@ const login = () => {
           Don't Have an Account? <a href="/Register">Sign Up</a>
         </p>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
-export default login;
+export default Login;
