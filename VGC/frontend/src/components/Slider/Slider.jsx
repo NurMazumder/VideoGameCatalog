@@ -1,19 +1,18 @@
 import React from "react";
 import "./Slider.css";
 import GameCard from "../GameCard/GameCard";
+import { Link } from "react-router-dom";
 
 const Slider = (props) => {
-  const { onClick } = props;
-  const { viewMore } = props;
   return (
     <div className="slider-container">
       <table className="slider-table">
         <thead>
           <tr>
             <th id="slider-header">{props.type}</th>
-            <th colSpan="4"></th>
-            <th onClick={viewMore} id="view-link">
-              View More
+            <th colSpan="3"></th>
+            <th id="view-link">
+              <Link to="/search">View More</Link>
             </th>
           </tr>
         </thead>
@@ -28,7 +27,6 @@ const Slider = (props) => {
                     description={game.description}
                     releaseDate={game.releaseDate}
                     price={game.price}
-                    onClick={() => onClick(game)}
                   />
                 </td>
               ))}

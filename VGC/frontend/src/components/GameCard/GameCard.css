@@ -1,8 +1,8 @@
 .card-container {
   border: solid gray;
   margin: 20px;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 180px;
   position: relative;
   color: antiquewhite;
 }
@@ -25,8 +25,10 @@
   height: 0%;
   width: 100%;
   background-color: #333333;
-  text-align: center;
   overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes slide-up {
@@ -34,7 +36,7 @@
     height: 0%;
   }
   to {
-    height: 75%;
+    height: 30%;
   }
 }
 

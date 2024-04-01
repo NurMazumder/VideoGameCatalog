@@ -1,14 +1,14 @@
 .game-container {
-  width: 80%;
-  height: 100%;
+  width: 1440px;
+  height: 780px;
   display: flex;
   flex-direction: column;
   background-color: #1e1e1e;
   border: 10px solid #2f2f2f;
   color: antiquewhite;
   position: absolute;
-  left: 20%;
   top: 0;
+  left: 0;
 }
 
 .game-image-container {
@@ -20,13 +20,15 @@
 }
 
 #game-image {
-  margin-left: 25%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .info-container {
   display: flex;
   flex-direction: row;
   flex: 1;
+  font-size: large;
 }
 
 .side-container {
@@ -48,7 +50,24 @@
   overflow-y: scroll;
 }
 
-.error-container {
-  color: antiquewhite;
-  font-size: xx-large;
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-spinner {
+  border: 8px solid antiquewhite;
+  border-left-color: #333;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
