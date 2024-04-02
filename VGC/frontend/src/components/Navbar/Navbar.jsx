@@ -1,4 +1,5 @@
 import React from "react";
+import "./Navbar.css";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -13,7 +14,7 @@ const Navbar = () => {
           className="search-input"
           placeholder="Search..."
         ></input>
-        <button type="submit" className="search-btn">
+        <button type="submit" className="search-button">
           Search
         </button>
       </div>

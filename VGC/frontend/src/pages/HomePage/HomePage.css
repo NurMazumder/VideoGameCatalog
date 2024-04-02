@@ -1,0 +1,33 @@
+.landing {
+  display: flex;
+  justify-content: center;
+  background: url("../../assets/Pac.jpg") no-repeat center center/cover;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border: 1px solid #000;
+}
+
+.landing-inner {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border: 1px solid #000;
+}
+
+.x-large {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.lead {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #fff;
+}
