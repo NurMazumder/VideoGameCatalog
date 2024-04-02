@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Auth.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -44,7 +45,7 @@ const Register = () => {
   };
 
   return (
-    <React.Fragment>
+    <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign Up</h2>
         <form onSubmit={(e) => onSubmit(e)}>
@@ -86,7 +87,7 @@ const Register = () => {
           Already Have an Account? <Link to="/Login">Sign In</Link>
         </p>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -1,113 +1,8 @@
 body,
 html {
   font-family: "MS Sans Serif", Geneva, sans-serif;
-  background-color: #008080;
-  color: #000000;
-}
-/*---------- NAV BAR ----------------*/
-
-.navbar {
-  background-color: #000080;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid #ffffff;
-}
-
-.navbar h1 {
-  margin: 0;
-  font-size: 20px;
+  background-color: #000000;
   color: #ffffff;
-}
-
-.navbar h1 a {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.navbar-search {
-  display: flex;
-}
-
-.search-input {
-  font-family: "Arial", sans-serif;
-  font-size: 16px;
-  color: #000000;
-  background-color: #ffffff;
-  border: 1px solid #000000;
-  padding: 5px;
-  margin-right: 5px;
-  width: 100%;
-}
-
-.search-btn {
-  background-color: #55aec9;
-  color: #ffffff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-.search-btn:hover {
-  background-color: #3d8291;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar ul li {
-  margin-left: 10px;
-}
-
-.navbar ul li a {
-  color: #ffffff;
-  text-decoration: none;
-  padding: 5px;
-}
-
-.navbar ul li a:hover {
-  background-color: #ffffff;
-  color: #000080;
-}
-
-/*----------------  landing -------------*/
-
-.landing {
-  display: flex;
-  justify-content: center;
-  background: url("./img/pac.jpg") no-repeat center center/cover;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
-}
-
-.dark-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  border: 1px solid #000;
-}
-
-.landing-inner {
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 20px;
-  border: 1px solid #000;
-}
-
-.x-large {
-  font-size: 32px;
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-.lead {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #fff;
 }
 
 .buttons a {
@@ -124,6 +19,7 @@ html {
   background-color: #2dbd51;
   opacity: 0.7;
 }
+
 /* Utilities */
 .container {
   max-width: 1100px;
