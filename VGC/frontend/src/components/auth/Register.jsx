@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
 
-const Register = () => {
+const Register = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,31 +17,13 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-
-    const newUser = {
-      name,
-      email,
-      password,
-    };
-
-    try {
-      const config = {
-        headers: {
-          // Changed "Headers" to "headers"
-          "Content-Type": "application/json",
-        },
-      };
-
-      const body = JSON.stringify(newUser);
-      const res = await axios.post(
-        "http://localhost:5030/api/users",
-        body,
-        config
+    if (password.length < 10) {
+      props.setAlert(
+        "Error: The password must be at least 6 characters long.",
+        "danger"
       );
-      console.log(res.data); // This will now log the response from your server, including the token if successful.
-    } catch (err) {
-      console.error(err.response.data);
+    } else {
+      console.log("SUCCESS");
     }
   };
 
@@ -91,4 +74,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(null, { setAlert })(Register);

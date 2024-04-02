@@ -13,6 +13,7 @@ import "./components/auth/Auth.css";
 import { Provider } from "react-redux";
 import store from "./store";
 import gameList from "./games.json";
+import Alert from "./components/Alerts/alert";
 
 const App = () => {
   return (
@@ -20,8 +21,9 @@ const App = () => {
       <Router>
         <Navbar />
         <section>
+          <Alert />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<MainPage gameList={gameList} />} />
