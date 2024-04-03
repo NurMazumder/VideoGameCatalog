@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
@@ -14,8 +14,17 @@ import { Provider } from "react-redux";
 import store from "./store";
 import gameList from "./games.json";
 import Alert from "./components/Alerts/alert";
+import { loadUser } from "./actions/auth";
+import setAuthToken from "./actions/setAuthToken";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Provider store={store}>
       <Router>

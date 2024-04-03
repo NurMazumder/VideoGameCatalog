@@ -1,5 +1,5 @@
 .navbar {
-  background-color: #000080;
+  background-color: #0e0e0f;
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -16,6 +16,7 @@
 .navbar h1 a {
   color: #ffffff;
   text-decoration: none;
+  padding-right: 20px;
 }
 
 .navbar-search {
@@ -34,7 +35,7 @@
 }
 
 .search-button {
-  background-color: #55aec9;
+  background-color: #464749;
   color: #ffffff;
   border: none;
   padding: 5px 10px;
@@ -42,11 +43,10 @@
 }
 
 .search-button:hover {
-  background-color: #3d8291;
+  background-color: #545e61;
 }
 
 .navbar ul {
-  list-style: none;
   display: flex;
   margin: 0;
   padding: 0;
