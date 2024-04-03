@@ -1,34 +1,40 @@
 import React, { useState } from "react";
 import "./Auth.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom"; // Updated import
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { login } from "../../actions/auth";
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+const Login = ({ login, isAuthenticated }) => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const { email, password } = formData;
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const navigate = useNavigate(); // Using useNavigate hook
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Success");
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    login(email, password);
+  };
+
+  if (isAuthenticated) {
+    navigate("/search"); // Programmatically navigate using navigate
+    return null; // Prevent further rendering
+  }
 
   return (
     <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign In</h2>
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={onSubmit}>
           <div className="form-control">
             <input
               type="email"
               name="email"
               value={email}
-              onChange={(e) => onChange(e)}
+              onChange={onChange}
               required
             />
             <label>Email</label>
@@ -38,7 +44,7 @@ const Login = () => {
               type="password"
               minLength="6"
               value={password}
-              onChange={(e) => onChange(e)}
+              onChange={onChange}
               name="password"
               required
             />
@@ -48,11 +54,20 @@ const Login = () => {
           <button type="submit">Sign In</button>
         </form>
         <p>
-          Don't Have an Account? <Link to="/Register">Sign Up</Link>
+          Don't Have an Account? <Link to="/register">Sign Up</Link>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);

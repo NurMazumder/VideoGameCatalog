@@ -19,13 +19,3 @@ html {
   background-color: #2dbd51;
   opacity: 0.7;
 }
-
-/* Utilities */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  overflow: hidden;
-  padding: 0 2rem;
-  margin-top: 6rem;
-  margin-bottom: 3rem;
-}

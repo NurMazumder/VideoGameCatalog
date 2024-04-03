@@ -1,62 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Auth.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom"; // Updated import
+import { connect } from "react-redux";
+import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
+import PropTypes from "prop-types";
 
-const Register = () => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    password2: "",
   });
 
-  const { name, email, password } = formData;
+  const { name, email, password, password2 } = formData;
+  const navigate = useNavigate(); // Using useNavigate hook
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-
-    const newUser = {
-      name,
-      email,
-      password,
-    };
-
-    try {
-      const config = {
-        headers: {
-          // Changed "Headers" to "headers"
-          "Content-Type": "application/json",
-        },
-      };
-
-      const body = JSON.stringify(newUser);
-      const res = await axios.post(
-        "http://localhost:5030/api/users",
-        body,
-        config
-      );
-      console.log(res.data); // This will now log the response from your server, including the token if successful.
-    } catch (err) {
-      console.error(err.response.data);
-    }
+    register({ name, email, password });
   };
+
+  // Redirect if authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/search"); // Redirecting using navigate
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign Up</h2>
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={onSubmit}>
           <div className="form-control">
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => onChange(e)}
-              required
-            />
+            <input type="text" name="name" value={name} onChange={onChange} />
             <label>Name</label>
           </div>
           <div className="form-control">
@@ -64,19 +46,16 @@ const Register = () => {
               type="email"
               name="email"
               value={email}
-              onChange={(e) => onChange(e)}
-              required
+              onChange={onChange}
             />
             <label>Email</label>
           </div>
           <div className="form-control">
             <input
               type="password"
-              minLength="6"
               value={password}
-              onChange={(e) => onChange(e)}
+              onChange={onChange}
               name="password"
-              required
             />
             <label>Password</label>
           </div>
@@ -84,11 +63,21 @@ const Register = () => {
           <button type="submit">Sign Up</button>
         </form>
         <p>
-          Already Have an Account? <Link to="/Login">Sign In</Link>
+          Already Have an Account? <Link to="/login">Sign In</Link>
         </p>
       </div>
     </div>
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { register })(Register);

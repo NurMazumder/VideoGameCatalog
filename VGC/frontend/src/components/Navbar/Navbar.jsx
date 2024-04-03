@@ -1,8 +1,35 @@
 import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../../actions/auth";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const authLinks = (
+    <ul>
+      <li>
+        <Link to="/myGames">myGames</Link>
+      </li>
+      <li>
+        <Link onClick={logout} to="#!">
+          Logout
+        </Link>
+      </li>
+    </ul>
+  );
+
+  const visitorLinks = (
+    <ul>
+      <li>
+        <Link to="/Register">Register</Link>
+      </li>
+      <li>
+        <Link to="/Login">Login</Link>
+      </li>
+    </ul>
+  );
+
   return (
     <nav className="navbar bg-dark">
       <h1>
@@ -18,19 +45,18 @@ const Navbar = () => {
           Search
         </button>
       </div>
-      <ul>
-        <li>
-          <Link to="/Games">Games</Link>
-        </li>
-        <li>
-          <Link to="/Register">Register</Link>
-        </li>
-        <li>
-          <Link to="/Login">Login</Link>
-        </li>
-      </ul>
+      {!loading && <> {isAuthenticated ? authLinks : visitorLinks}</>}
     </nav>
   );
 };
 
-export default Navbar;
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

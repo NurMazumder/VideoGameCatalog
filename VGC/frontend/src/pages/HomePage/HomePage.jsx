@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <section className="landing">
+    <section className="home">
       <div className="dark-overlay">
-        <div className="landing-inner">
+        <div className="home-inner">
           <h1 className="x-large">Video Game Catalog</h1>
           <p className="lead">
             Browse video games, leave reviews, and add to favorites
