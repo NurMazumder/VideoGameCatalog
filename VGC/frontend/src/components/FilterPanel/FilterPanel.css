@@ -1,0 +1,27 @@
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
+  background-color: darkgoldenrod;
+}
+
+.panel-container legend {
+  font-size: x-large;
+  color: lightgoldenrodyellow;
+  text-align: center;
+}
+
+.panel-container ul {
+  margin-bottom: 15px;
+}
+
+.checkbox-selector {
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.checkbox-selector input {
+  margin-right: 5px;
+}

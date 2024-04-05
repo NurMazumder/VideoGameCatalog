@@ -10,20 +10,20 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import GamePage from "./pages/GamePage/GamePage";
 import "./components/Auth/Auth.css";
-import gameList from "./games.json";
 
 const App = () => {
   return (
     <Router>
       <Navbar />
-      <section className="containter">
+      <section className="container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/main" element={<MainPage gameList={gameList} />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/game/:id" element={<GamePage />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="/Login" element={<Login />} />
+          {/*<Route path="/Main" element={<MainPage gameList={gameList} />} />*/}
+          <Route path="/Search" element={<SearchPage />} />
+          <Route path="/Search/:query" element={<SearchPage />} />
+          <Route path="/Game/:id" element={<GamePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </section>

@@ -44,7 +44,7 @@ router.get("/newrelease", async (req, res) => {
 // @route   GET api/testgames/:id
 // @review  Get details of a specific video game by its id
 // @access  Public
-router.get("/:id", async (req, res) => {
+router.get("/id/:id", async (req, res) => {
   try {
     const game = await Game.findOne({ rawg_id: req.params.id });
     if (!game) {
@@ -56,6 +56,28 @@ router.get("/:id", async (req, res) => {
     if (err.kind === "ObjectId") {
       return res.status(404).json({ msg: "Video game not found" });
     }
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/testgames/search
+// @review  Get games by a search filter
+// @access  Public
+router.get("/search/:search", async (req, res) => {
+  try {
+    const searchQuery = req.params.search;
+    const regex = new RegExp(searchQuery.split(" ").join("|"), "i");
+    const filteredGames = await Game.find({
+      $or: [
+        { game_name: regex },
+        { game_tags: regex },
+        { game_genres: regex },
+        { game_platforms: regex },
+      ],
+    });
+    res.json(filteredGames);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send("Server error");
   }
 });

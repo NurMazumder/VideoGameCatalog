@@ -1,6 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import SearchBar from "../SearchBar/SearchBar";
 
 const Navbar = () => {
   return (
@@ -8,19 +9,10 @@ const Navbar = () => {
       <h1>
         <Link to="/">VGC</Link>
       </h1>
-      <div className="navbar-search">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search..."
-        ></input>
-        <button type="submit" className="search-button">
-          Search
-        </button>
-      </div>
+      <SearchBar />
       <ul>
         <li>
-          <Link to="/Games">Games</Link>
+          <Link to="/Search">Games</Link>
         </li>
         <li>
           <Link to="/Register">Register</Link>

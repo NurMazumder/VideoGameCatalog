@@ -1,18 +1,24 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Enzyme, { mount } from "enzyme";
+import Adapter from "@cfaester/enzyme-adapter-react-18";
 import Slider from "../../components/Slider/Slider";
 
+Enzyme.configure({ adapter: new Adapter() });
 describe("Slider Component", () => {
   it("Renders slider with one game", () => {
     const gameList = [
       {
-        image: "Minecraft.png",
-        title: "Minecraft",
-        description:
-          "Minecraft is a 2011 sandbox game developed by Mojang Studios and originally released in 2009.",
+        image: "Pac.png",
+        title: "Pacman",
       },
     ];
-    render(<Slider type="Popular" games={gameList} />);
+    render(
+      <Router>
+        <Slider type="Popular" games={gameList} />{" "}
+      </Router>
+    );
     expect(screen.getByAltText("Game Image")).toHaveAttribute(
       "src",
       gameList.image
@@ -20,30 +26,29 @@ describe("Slider Component", () => {
     expect(screen.getByText("View More")).toBeInTheDocument();
     expect(screen.getByText("Popular")).toBeInTheDocument();
     expect(screen.getByText(gameList[0].title)).toBeInTheDocument();
-    expect(screen.getByText(gameList[0].description)).toBeInTheDocument();
   });
   it("Renders slider with multiple game", () => {
     const gameList = [
       {
-        image: "Minecraft.png",
-        title: "Minecraft",
-        description: "Minecraft is a sandboxm game.",
+        image: "Pac.png",
+        title: "PacMan",
       },
       {
-        image: "Vite.png",
-        title: "Vite",
-        description: "Vite is a testing game.",
+        image: "NotFound.png",
+        title: "Background",
       },
       {
-        image: "Fornite.png",
-        title: "Fornite",
-        description: "Fornite is a battle royale game.",
+        image: "Signup.png",
+        title: "Pixel",
       },
     ];
-    render(<Slider type="New Release" games={gameList} />);
+    render(
+      <Router>
+        <Slider type="New Release" games={gameList} />
+      </Router>
+    );
     gameList.forEach((game) => {
       expect(screen.getByText(game.title)).toBeInTheDocument();
-      expect(screen.getByText(game.description)).toBeInTheDocument();
     });
     const gameImages = screen.queryAllByAltText("Game Image");
     gameImages.forEach((gameImage, index) => {
@@ -57,25 +62,25 @@ describe("Slider Component", () => {
       {
         image: 123,
         title: "Minecraft",
-        description: "Minecraft is a sandboxm game.",
       },
       {
         image: true,
         title: "Vite",
-        description: "Vite is a testing game.",
       },
       {
         image: ["React.png"],
         title: "React",
-        description: "React is not a game but is a javascript library.",
       },
       {
-        image: "Fornite.png",
-        title: "Fornite",
-        description: "Fornite is a battle royale game.",
+        image: "Pac.png",
+        title: "PacMan",
       },
     ];
-    render(<Slider type="Popular" games={gameList} />);
+    render(
+      <Router>
+        <Slider type="Popular" games={gameList} />
+      </Router>
+    );
     const gameImages = screen.queryAllByAltText("Game Image");
     const validGames = gameList.filter(
       (game) => typeof game.image === "string"
@@ -84,26 +89,26 @@ describe("Slider Component", () => {
     expect(screen.getByText("View More")).toBeInTheDocument();
     expect(gameImages.length).toBe(validGames.length);
   });
-  it("Calls onClick handler when a game card is clicked", () => {
-    const onClickMock = jest.fn();
+  it("Simulate view more click to searchpage", () => {
     const gameList = [
       {
-        image: "Minecraft.png",
-        title: "Minecraft",
-        description: "Minecraft is a sandbox game.",
+        id: "1",
+        image: "Pac.png",
+        title: "PacMan",
       },
       {
-        image: "Fornite.png",
-        title: "Fornite",
-        description: "Fornite is a battle royale game.",
+        id: "2",
+        image: "vite.png",
+        title: "Vite",
       },
     ];
-    render(<Slider type="Popular" games={gameList} onClick={onClickMock} />);
-    const gameCard1 = screen.getAllByTestId("game-card")[0];
-    fireEvent.click(gameCard1);
-    expect(onClickMock).toHaveBeenCalledWith(gameList[0]);
-    const gameCard2 = screen.getAllByTestId("game-card")[1];
-    fireEvent.click(gameCard2);
-    expect(onClickMock).toHaveBeenCalledWith(gameList[1]);
+    const wrapper = mount(
+      <Router>
+        <Slider type="Popular" games={gameList} />
+      </Router>
+    );
+    wrapper.find("Slider").first().find("#view-link Link").simulate("click");
+    expect(window.location.pathname).toBe("/search");
+    wrapper.unmount();
   });
 });

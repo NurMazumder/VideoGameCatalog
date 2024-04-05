@@ -5,6 +5,7 @@ const GameSchema = new Schema({
   rawg_id: {
     type: Number,
     unique: true,
+    required: true,
   },
   game_name: {
     type: String,
@@ -18,24 +19,6 @@ const GameSchema = new Schema({
   website: String,
   rating: Number,
   ratingsCount: Number,
-  platforms: [
-    {
-      name: String,
-    },
-  ],
-  genres: [
-    {
-      name: String,
-    },
-  ],
-  tags: [
-    {
-      name: String,
-    },
-  ],
-  esrb: {
-    type: String,
-  },
 });
 
-module.exports = mongoose.model("gamesTest", GameSchema, "gamesTest");
+module.exports = mongoose.model("gamestests", GameSchema, "gamestests");

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./Gamepage.css";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import Loading from "../../components/Loading/Loading";
 
 const GamePage = () => {
   const { id } = useParams();
@@ -11,7 +12,9 @@ const GamePage = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const response = await fetch(`http://localhost:5030/api/games/${id}`);
+        const response = await fetch(
+          `http://localhost:5030/api/games/id/${id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch game");
         }
@@ -29,9 +32,7 @@ const GamePage = () => {
   return (
     <>
       {loading ? (
-        <div className="loading-contaainer">
-          <div className="loading-spinner"></div>
-        </div>
+        <Loading />
       ) : gameDetails ? (
         <div className="game-container">
           <div className="game-image-container">
@@ -44,8 +45,11 @@ const GamePage = () => {
           <div className="info-container">
             <div className="side-container">
               <p>{gameDetails.game_name}</p>
-              <p>Release Date: {gameDetails.game_released}</p>
-              <p>Price: </p>
+              <p>Release Date: {gameDetails.game_released.substring(0, 10)}</p>
+              <p>
+                Genres:{" "}
+                {gameDetails.game_genres.map((genre) => genre).join(", ")}
+              </p>
               {/*<p>
                 Developers:{" "}
                 {gameDetails.developers
@@ -54,13 +58,16 @@ const GamePage = () => {
                 </p>*/}
               <p>
                 Platforms:{" "}
-                {gameDetails.platforms
-                  .map((platform) => platform.name)
+                {gameDetails.game_platforms
+                  .map((platform) => platform)
                   .join(", ")}
+              </p>
+              <p>
+                Tags: {gameDetails.game_tags.map((tags) => tags).join(", ")}
               </p>
             </div>
             <div className="game-description-container">
-              <p>{gameDetails.description}</p>
+              <p>{gameDetails.game_description}</p>
             </div>
           </div>
         </div>

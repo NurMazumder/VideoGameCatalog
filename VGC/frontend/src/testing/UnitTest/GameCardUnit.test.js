@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
 import GameCard from "../../components/GameCard/GameCard";
 
 describe("GameCard Component", () => {
@@ -10,31 +11,25 @@ describe("GameCard Component", () => {
       description: "This is a test game.",
     };
     render(
-      <GameCard
-        image={game.image}
-        title={game.title}
-        description={game.description}
-      />
+      <Router>
+        <GameCard image={game.image} title={game.title} />
+      </Router>
     );
     expect(screen.getByAltText("Game Image")).toHaveAttribute(
       "src",
       game.image
     );
     expect(screen.getByText(game.title)).toBeInTheDocument();
-    expect(screen.getByText(game.description)).toBeInTheDocument();
   });
   it("Renders game card correctly when image type is wrong", () => {
     const invalidImagePath = 1;
     render(
-      <GameCard
-        image={invalidImagePath}
-        title="Test Game"
-        description="This is a test game"
-      />
+      <Router>
+        <GameCard image={invalidImagePath} title="Test Game" />
+      </Router>
     );
     expect(screen.queryByAltText("Game Image")).toBeNull();
     expect(screen.getByText("Error Processing Image")).toBeInTheDocument();
     expect(screen.getByText("Test Game")).toBeInTheDocument();
-    expect(screen.getByText("This is a test game")).toBeInTheDocument();
   });
 });
