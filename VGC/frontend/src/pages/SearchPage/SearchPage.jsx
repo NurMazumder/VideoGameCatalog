@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import GameCard from "../../components/GameCard/GameCard";
 import FilterPanel from "../../components/FilterPanel/FilterPanel";
 import Loading from "../../components/Loading/Loading";
+import { param } from "express-validator";
 
 const SearchPage = () => {
   const { query } = useParams();
@@ -29,9 +30,12 @@ const SearchPage = () => {
         console.error("Error fetching games:", error);
       }
     };
+    console.log(param);
     if (query) {
+      console.log("2");
       fetchGames(`http://localhost:5030/api/games/search/${query}`);
     } else {
+      console.log("1");
       fetchGames("http://localhost:5030/api/games");
     }
   }, [query]);

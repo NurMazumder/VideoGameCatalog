@@ -1,14 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "MS Sans Serif", Geneva, sans-serif;
-}
-
-body {
-  background: #000;
-}
-
 .auth-background::before {
   content: "";
   position: absolute;

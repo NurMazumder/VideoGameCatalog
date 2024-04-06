@@ -1,20 +1,38 @@
 import React from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
+import SearchBar from "../SearchBar/SearchBar";
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const navigate = useNavigate();
+
+  // Handle logout and navigation
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    navigate("/");
+  };
+
+  // Redirect authenticated users to "/search"
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/search");
+    }
+  }, [isAuthenticated, navigate]);
+
   const authLinks = (
     <ul>
       <li>
         <Link to="/myGames">myGames</Link>
       </li>
       <li>
-        <Link onClick={logout} to="#!">
+        {/* Updated logout link to call handleLogout function */}
+        <a href="#!" onClick={handleLogout}>
           Logout
-        </Link>
+        </a>
       </li>
     </ul>
   );
@@ -35,17 +53,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <h1>
         <Link to="/">VGC</Link>
       </h1>
-      <div className="navbar-search">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search..."
-        ></input>
-        <button type="submit" className="search-button">
-          Search
-        </button>
-      </div>
-      {!loading && <> {isAuthenticated ? authLinks : visitorLinks}</>}
+      <SearchBar />
+      {!loading && (isAuthenticated ? authLinks : visitorLinks)}
     </nav>
   );
 };
