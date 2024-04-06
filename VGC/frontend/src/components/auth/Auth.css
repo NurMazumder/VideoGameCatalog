@@ -1,3 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "MS Sans Serif", Geneva, sans-serif;
+}
+
+body {
+  background: #000;
+}
+
 .auth-background::before {
   content: "";
   position: absolute;
@@ -108,4 +119,28 @@ form button:hover {
 
 .form-wrapper small a {
   color: #0071eb;
+}
+/* do we really need this? */
+@media (max-width: 740px) {
+  .body::before {
+    display: none;
+  }
+
+  nav,
+  .form-wrapper {
+    padding: 20px;
+  }
+
+  nav a img {
+    width: 140px;
+  }
+
+  .form-wrapper {
+    width: 100%;
+    top: 43%;
+  }
+
+  .form-wrapper form {
+    margin: 25px 0 40px;
+  }
 }
