@@ -19,33 +19,6 @@
   padding-right: 20px;
 }
 
-.navbar-search {
-  display: flex;
-}
-
-.search-input {
-  font-family: "Arial", sans-serif;
-  font-size: 16px;
-  color: #000000;
-  background-color: #ffffff;
-  border: 1px solid #000000;
-  padding: 5px;
-  margin-right: 5px;
-  width: 100%;
-}
-
-.search-button {
-  background-color: #464749;
-  color: #ffffff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.search-button:hover {
-  background-color: #545e61;
-}
-
 .navbar ul {
   display: flex;
   margin: 0;

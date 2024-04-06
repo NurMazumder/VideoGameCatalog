@@ -21,13 +21,7 @@ const Slider = (props) => {
             {props.games &&
               props.games.map((game, index) => (
                 <td key={index}>
-                  <GameCard
-                    image={game.image}
-                    title={game.title}
-                    description={game.description}
-                    releaseDate={game.releaseDate}
-                    price={game.price}
-                  />
+                  <GameCard image={game.image} title={game.title} />
                 </td>
               ))}
           </tr>

@@ -12,10 +12,10 @@ import GamePage from "./pages/GamePage/GamePage";
 import "./components/auth/Auth.css";
 import { Provider } from "react-redux";
 import store from "./store";
-import gameList from "./games.json";
-import Alert from "./components/Alerts/alert";
+import Alert from "./components/Alerts/Alert";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./actions/setAuthToken";
+import gameList from "./games.json";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -37,6 +37,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<MainPage gameList={gameList} />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/search/:query" element={<SearchPage />} />
             <Route path="/game/:id" element={<GamePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
