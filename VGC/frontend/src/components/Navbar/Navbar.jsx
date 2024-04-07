@@ -16,15 +16,6 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     navigate("/");
   };
 
-  // Redirect authenticated users to "/search"
-  {
-    /*React.useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/search");
-    }
-  }, [isAuthenticated, navigate]);*/
-  }
-
   const authLinks = (
     <ul>
       <li>
@@ -53,7 +44,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   return (
     <nav className="navbar bg-dark">
       <h1>
-        <Link to="/">VGC</Link>
+        <Link to={isAuthenticated ? "/search" : "/"}>VGC</Link>
       </h1>
       <SearchBar />
       {!loading && (isAuthenticated ? authLinks : visitorLinks)}
