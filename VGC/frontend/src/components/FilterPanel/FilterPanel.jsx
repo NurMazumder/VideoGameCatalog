@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./FilterPanel.css";
+import { useLocation } from "react-router-dom";
 
 const FilterPanel = (props) => {
   const { genreList, platformList, genreSelection, platformSelection } = props;
   const [genreInput, setGenreInput] = useState([]);
   const [platformInput, setPlatformInput] = useState([]);
+  const location = useLocation();
 
   // Handle genre checkbox inputs
   const handleGenre = (event) => {
@@ -32,6 +34,17 @@ const FilterPanel = (props) => {
     platformSelection(updatedPlatforms);
   };
 
+  // Clear selections
+  useEffect(() => {
+    const resetSelections = () => {
+      setGenreInput([]);
+      setPlatformInput([]);
+    };
+    if (location.pathname.includes("/search/")) {
+      resetSelections();
+    }
+  }, [location.pathname]);
+
   return (
     <div className="panel-container">
       {genreList && (
@@ -44,7 +57,8 @@ const FilterPanel = (props) => {
                   type="checkbox"
                   value={genre}
                   id={`genre-${index}`}
-                  onClick={handleGenre}
+                  onChange={handleGenre}
+                  checked={genreInput.includes(genre)}
                 />
                 <label htmlFor={`genre-${index}`}>{genre}</label>
               </div>
@@ -62,7 +76,8 @@ const FilterPanel = (props) => {
                   type="checkbox"
                   value={platform}
                   id={`platform-${index}`}
-                  onClick={handlePlatform}
+                  onChange={handlePlatform}
+                  checked={platformInput.includes(platform)}
                 />
                 <label htmlFor={`platform-${index}`}>{platform}</label>
               </div>

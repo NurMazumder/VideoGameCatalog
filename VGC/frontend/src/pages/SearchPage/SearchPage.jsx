@@ -16,6 +16,10 @@ const SearchPage = () => {
   const [filteredGamesList, setFilteredGamesList] = useState([]);
   const [filteredGenres, setFilteredGenres] = useState([]);
   const [filteredPlatforms, setFilteredPlatforms] = useState([]);
+  const [isSelected, setIsSelected] = useState({
+    genreSelected: false,
+    platformSelected: false,
+  });
 
   // Get list of games
   useEffect(() => {
@@ -43,6 +47,7 @@ const SearchPage = () => {
   const fetchFilteredGenre = async (selectedGenres) => {
     setIsLoading(true);
     if (selectedGenres.length !== 0) {
+      setIsSelected({ genreSelected: true });
       try {
         const response = await fetch(
           `http://localhost:5030/api/games/search/genre/${selectedGenres.join(
@@ -53,11 +58,15 @@ const SearchPage = () => {
           throw new Error("Failed to fetch games");
         }
         const json = await response.json();
-        setFilteredGenres(json);
+        const games = json.filter((data) =>
+          gamesList.some((game) => game.rawg_id === data.rawg_id)
+        );
+        setFilteredGenres(games);
       } catch (error) {
         console.error("Error fetching games:", error);
       }
     } else {
+      setIsSelected({ genreSelected: false });
       setFilteredGenres([]);
     }
   };
@@ -66,6 +75,7 @@ const SearchPage = () => {
   const fetchFilteredPlatform = async (selectedPlatforms) => {
     setIsLoading(true);
     if (selectedPlatforms.length !== 0) {
+      setIsSelected({ platformSelected: true });
       try {
         const response = await fetch(
           `http://localhost:5030/api/games/search/platform/${selectedPlatforms.join(
@@ -76,11 +86,15 @@ const SearchPage = () => {
           throw new Error("Failed to fetch games");
         }
         const json = await response.json();
-        setFilteredPlatforms(json);
+        const games = json.filter((data) =>
+          gamesList.some((game) => game.rawg_id === data.rawg_id)
+        );
+        setFilteredPlatforms(games);
       } catch (error) {
         console.error("Error fetching games:", error);
       }
     } else {
+      setIsSelected({ platformSelected: false });
       setFilteredPlatforms([]);
     }
   };
@@ -89,7 +103,11 @@ const SearchPage = () => {
   useEffect(() => {
     const updateFilteredGames = () => {
       if (filteredGenres.length === 0 && filteredPlatforms.length === 0) {
-        setFilteredGamesList(gamesList);
+        if (!isSelected.genreSelected && !isSelected.platformSelected) {
+          setFilteredGamesList(gamesList);
+        } else {
+          setFilteredGamesList([]);
+        }
       } else if (filteredGenres.length > 0 && filteredPlatforms.length > 0) {
         const filteredGames = filteredGenres.filter((game1) => {
           return filteredPlatforms.some(
