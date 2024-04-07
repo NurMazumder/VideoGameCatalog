@@ -17,11 +17,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   };
 
   // Redirect authenticated users to "/search"
-  React.useEffect(() => {
+  {
+    /*React.useEffect(() => {
     if (isAuthenticated) {
       navigate("/search");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate]);*/
+  }
 
   const authLinks = (
     <ul>
