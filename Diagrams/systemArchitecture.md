@@ -12,6 +12,8 @@ The client side of the application uses react and vite, it communicates with the
 
 ![Relationship Diagram](ERD.png)
 
+The main entities in our project are users, review, games. 'User' to 'UserGame', is a many to many relationship, as ach 'User' can have zero or more 'Game's and each 'Game' can be associated with zero or more 'User's. 'Game' to genres, tags, and platform are many to many, as sach 'Game' can have multiple of these attributes associated with it, and each of these attributes can be associated with multiple 'Game's. 'User' to review is a one to many relation, as each 'User' can write zero or more 'Review's, but each 'Review' is written by only one 'User'. Further, Game to Review is also one to many as, each 'Game' can have zero or more 'Review's written about it, but each 'Review' relates to only one 'Game'.
+
 ## Flow Diagram
 
 ![Flow Diagram](flow.png)
