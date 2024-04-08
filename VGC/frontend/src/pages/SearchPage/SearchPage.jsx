@@ -26,9 +26,6 @@ const SearchPage = () => {
     const fetchGames = async (url) => {
       try {
         const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Failed to fetch games");
-        }
         const json = await response.json();
         setGamesList(json);
         setFilteredGamesList(json);
@@ -54,9 +51,6 @@ const SearchPage = () => {
             " "
           )}`
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch games");
-        }
         const json = await response.json();
         const games = json.filter((data) =>
           gamesList.some((game) => game.rawg_id === data.rawg_id)
@@ -82,9 +76,6 @@ const SearchPage = () => {
             " "
           )}`
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch games");
-        }
         const json = await response.json();
         const games = json.filter((data) =>
           gamesList.some((game) => game.rawg_id === data.rawg_id)

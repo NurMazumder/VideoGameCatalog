@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Alert from "./components/Alerts/Alert";
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/HomePage/HomePage";
 import Register from "./components/Auth/Register";
@@ -9,13 +10,11 @@ import MainPage from "./pages/MainPage/MainPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import GamePage from "./pages/GamePage/GamePage";
-import "./components/auth/Auth.css";
+import "./components/auth/Auth.css"; // what are we importing the style here?
 import { Provider } from "react-redux";
 import store from "./store";
-import Alert from "./components/Alerts/Alert";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./actions/setAuthToken";
-import gameList from "./games.json";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -35,7 +34,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/main" element={<MainPage gameList={gameList} />} />
+            <Route path="/main" element={<MainPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:query" element={<SearchPage />} />
             <Route path="/game/:id" element={<GamePage />} />

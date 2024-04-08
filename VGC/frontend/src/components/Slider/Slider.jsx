@@ -10,7 +10,7 @@ const Slider = (props) => {
         <thead>
           <tr>
             <th id="slider-header">{props.type}</th>
-            <th colSpan="3"></th>
+            <th colSpan="8"></th>
             <th id="view-link">
               <Link to="/search">View More</Link>
             </th>
@@ -21,7 +21,12 @@ const Slider = (props) => {
             {props.games &&
               props.games.map((game, index) => (
                 <td key={index}>
-                  <GameCard image={game.image} title={game.title} />
+                  <GameCard
+                    image={game.game_background_image}
+                    title={game.game_name}
+                    releaseDate={game.game_released}
+                    id={game.rawg_id}
+                  />
                 </td>
               ))}
           </tr>

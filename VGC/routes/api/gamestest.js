@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Game = require("../../models/GamesTest");
 
-// @route   GET api/testgames
+// @route   GET api/games
 // @review  Get a list of all video games
 // @access  Public
 router.get("/", async (req, res) => {
@@ -20,7 +20,10 @@ router.get("/", async (req, res) => {
 // @access  Public
 router.get("/popular", async (req, res) => {
   try {
-    const games = await Game.find().sort({ ratingsCount: -1 }).limit(10);
+    const count = req.query.count ? parseInt(req.query.count) : 10;
+    const games = await Game.find()
+      .sort({ game_ratings_count: -1 })
+      .limit(count);
     res.json(games);
   } catch (err) {
     console.error(err.message);
@@ -33,7 +36,8 @@ router.get("/popular", async (req, res) => {
 // @access  Public
 router.get("/newrelease", async (req, res) => {
   try {
-    const games = await Game.find().sort({ released: -1 }).limit(10);
+    const count = req.query.count ? parseInt(req.query.count) : 10;
+    const games = await Game.find().sort({ game_released: -1 }).limit(count);
     res.json(games);
   } catch (err) {
     console.error(err.message);
@@ -76,7 +80,7 @@ router.get("/search/name/:search", async (req, res) => {
 });
 
 // @route   GET api/games/search/genre
-// @review  Get games by a name filter
+// @review  Get games by a genre filter
 // @access  Public
 router.get("/search/genre/:search", async (req, res) => {
   try {
@@ -94,7 +98,7 @@ router.get("/search/genre/:search", async (req, res) => {
 });
 
 // @route   GET api/games/search/platform
-// @review  Get games by a name filter
+// @review  Get games by a platform filter
 // @access  Public
 router.get("/search/platform/:search", async (req, res) => {
   try {
