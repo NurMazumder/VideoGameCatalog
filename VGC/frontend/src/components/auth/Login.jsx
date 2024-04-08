@@ -19,9 +19,11 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password);
   };
 
-  if (isAuthenticated) {
+  {
+    /*if (isAuthenticated) {
     navigate("/search"); // Programmatically navigate using navigate
     return null; // Prevent further rendering
+  }*/
   }
 
   return (

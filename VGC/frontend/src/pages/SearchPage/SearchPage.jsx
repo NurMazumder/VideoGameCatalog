@@ -14,44 +14,121 @@ const SearchPage = () => {
   const [genres, setGenres] = useState([]);
   const [platforms, setPlatforms] = useState([]);
   const [filteredGamesList, setFilteredGamesList] = useState([]);
-  const [filterInput, setFilterInput] = useState([]);
+  const [filteredGenres, setFilteredGenres] = useState([]);
+  const [filteredPlatforms, setFilteredPlatforms] = useState([]);
+  const [isSelected, setIsSelected] = useState({
+    genreSelected: false,
+    platformSelected: false,
+  });
 
-  // get list of games
+  // Get list of games
   useEffect(() => {
     const fetchGames = async (url) => {
       try {
         const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Failed to fetch games");
-        }
         const json = await response.json();
         setGamesList(json);
+        setFilteredGamesList(json);
       } catch (error) {
         console.error("Error fetching games:", error);
       }
     };
-    console.log(param);
     if (query) {
-      console.log("2");
-      fetchGames(`http://localhost:5030/api/games/search/${query}`);
+      fetchGames(`http://localhost:5030/api/games/search/name/${query}`);
     } else {
-      console.log("1");
       fetchGames("http://localhost:5030/api/games");
     }
   }, [query]);
+
+  // Fetch games based on genres
+  const fetchFilteredGenre = async (selectedGenres) => {
+    setIsLoading(true);
+    if (selectedGenres.length !== 0) {
+      setIsSelected({ genreSelected: true });
+      try {
+        const response = await fetch(
+          `http://localhost:5030/api/games/search/genre/${selectedGenres.join(
+            " "
+          )}`
+        );
+        const json = await response.json();
+        const games = json.filter((data) =>
+          gamesList.some((game) => game.rawg_id === data.rawg_id)
+        );
+        setFilteredGenres(games);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+    } else {
+      setIsSelected({ genreSelected: false });
+      setFilteredGenres([]);
+    }
+  };
+
+  // Fetch games based on platforms
+  const fetchFilteredPlatform = async (selectedPlatforms) => {
+    setIsLoading(true);
+    if (selectedPlatforms.length !== 0) {
+      setIsSelected({ platformSelected: true });
+      try {
+        const response = await fetch(
+          `http://localhost:5030/api/games/search/platform/${selectedPlatforms.join(
+            " "
+          )}`
+        );
+        const json = await response.json();
+        const games = json.filter((data) =>
+          gamesList.some((game) => game.rawg_id === data.rawg_id)
+        );
+        setFilteredPlatforms(games);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+    } else {
+      setIsSelected({ platformSelected: false });
+      setFilteredPlatforms([]);
+    }
+  };
+
+  // Filter games based on genres and platforms
+  useEffect(() => {
+    const updateFilteredGames = () => {
+      if (filteredGenres.length === 0 && filteredPlatforms.length === 0) {
+        if (!isSelected.genreSelected && !isSelected.platformSelected) {
+          setFilteredGamesList(gamesList);
+        } else {
+          setFilteredGamesList([]);
+        }
+      } else if (filteredGenres.length > 0 && filteredPlatforms.length > 0) {
+        const filteredGames = filteredGenres.filter((game1) => {
+          return filteredPlatforms.some(
+            (game2) => game1.rawg_id === game2.rawg_id
+          );
+        });
+        setFilteredGamesList(filteredGames);
+      } else if (filteredGenres.length > 0) {
+        setFilteredGamesList(filteredGenres);
+      } else {
+        setFilteredGamesList(filteredPlatforms);
+      }
+    };
+    updateFilteredGames();
+  }, [filteredGenres, filteredPlatforms]);
 
   // Organize games into rows of 4
   useEffect(() => {
     const organizeGamesToRows = () => {
       const rows = [];
-      for (let i = 0; i < gamesList.length; i += 4) {
-        rows.push(gamesList.slice(i, i + 4));
+      const games = filteredGamesList;
+      for (let i = 0; i < games.length; i += 4) {
+        rows.push(games.slice(i, i + 4));
       }
       return rows;
     };
     setIsLoading(false);
     setGameRows(organizeGamesToRows());
-  }, [gamesList]);
+  }, [gamesList, filteredGamesList]);
+
   // Get genres and platforms of the game list
   useEffect(() => {
     const populateGameData = () => {
@@ -74,7 +151,12 @@ const SearchPage = () => {
   return (
     <div className="page-container">
       <div className="search-side-container">
-        <FilterPanel genreList={genres} platformList={platforms} />
+        <FilterPanel
+          genreList={genres}
+          platformList={platforms}
+          genreSelection={fetchFilteredGenre}
+          platformSelection={fetchFilteredPlatform}
+        />
       </div>
       {isLoading ? (
         <Loading />
@@ -83,25 +165,28 @@ const SearchPage = () => {
           <table className="search-table">
             <thead>
               <tr>
-                <th id="search-header">Games Found: {gamesList.length}</th>
+                <th id="search-header">
+                  Games Found: {filteredGamesList.length}
+                </th>
                 <th colSpan="3"></th>
               </tr>
             </thead>
             <tbody>
-              {gameRows.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((game, index) => (
-                    <td key={index}>
-                      <GameCard
-                        image={game.game_background_image}
-                        title={game.game_name}
-                        releaseDate={game.game_released}
-                        id={game.rawg_id}
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {gameRows &&
+                gameRows.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {row.map((game, index) => (
+                      <td key={index}>
+                        <GameCard
+                          image={game.game_background_image}
+                          title={game.game_name}
+                          releaseDate={game.game_released}
+                          id={game.rawg_id}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
