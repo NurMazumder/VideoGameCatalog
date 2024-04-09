@@ -10,7 +10,6 @@ import MainPage from "./pages/MainPage/MainPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import GamePage from "./pages/GamePage/GamePage";
-import "./components/auth/Auth.css"; // what are we importing the style here?
 import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";

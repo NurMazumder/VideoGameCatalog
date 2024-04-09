@@ -22,6 +22,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to="/myGames">myGames</Link>
       </li>
       <li>
+        <Link to="/Account">Account</Link>
+      </li>
+      <li>
         {/* Updated logout link to call handleLogout function */}
         <a href="#!" onClick={handleLogout}>
           Logout
