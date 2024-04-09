@@ -8,4 +8,8 @@ export default defineConfig({
     host: true,
     port: 3000,
   },
+  root: "src",
+  build: {
+    outDir: "../dist",
+  },
 });
