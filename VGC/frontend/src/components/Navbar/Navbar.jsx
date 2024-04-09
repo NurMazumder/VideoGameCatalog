@@ -9,7 +9,6 @@ import SearchBar from "../SearchBar/SearchBar";
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const navigate = useNavigate();
 
-  // Handle logout and navigation
   const handleLogout = (e) => {
     e.preventDefault();
     logout();

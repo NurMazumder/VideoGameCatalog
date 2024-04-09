@@ -1,0 +1,4 @@
+{
+  "mongoURL": "mongodb+srv://root:root@videogamecatalog.c6auklf.mongodb.net/?retryWrites=true&w=majority&appName=VideoGameCatalog",
+  "jwtSecret": "VideoGameCatalog"
+}
