@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./Gamepage.css";
+import "./GamePage.css";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import Loading from "../../components/Loading/Loading";
 
