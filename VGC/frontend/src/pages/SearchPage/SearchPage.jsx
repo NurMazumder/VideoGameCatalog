@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import GameCard from "../../components/GameCard/GameCard";
 import FilterPanel from "../../components/FilterPanel/FilterPanel";
 import Loading from "../../components/Loading/Loading";
-import { param } from "express-validator";
+//import { param } from "express-validator";
 
 const SearchPage = () => {
   const { query } = useParams();
