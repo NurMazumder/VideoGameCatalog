@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import "./Alert.css";
+import "./alert.css";
 
 const Alert = ({ alerts }) => {
   return (
