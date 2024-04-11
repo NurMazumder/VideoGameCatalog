@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import GameCard from "../../components/GameCard/GameCard";
 import FilterPanel from "../../components/FilterPanel/FilterPanel";
 import Loading from "../../components/Loading/Loading";
-//import { param } from "express-validator";
 
 const SearchPage = () => {
   const { query } = useParams();
@@ -44,7 +43,7 @@ const SearchPage = () => {
   const fetchFilteredGenre = async (selectedGenres) => {
     setIsLoading(true);
     if (selectedGenres.length !== 0) {
-      setIsSelected({ genreSelected: true });
+      setIsSelected({ ...isSelected, genreSelected: true });
       try {
         const response = await fetch(
           `http://localhost:5030/api/games/search/genre/${selectedGenres.join(
@@ -60,7 +59,7 @@ const SearchPage = () => {
         console.error("Error fetching games:", error);
       }
     } else {
-      setIsSelected({ genreSelected: false });
+      setIsSelected({ ...isSelected, genreSelected: false });
       setFilteredGenres([]);
     }
   };
@@ -69,7 +68,7 @@ const SearchPage = () => {
   const fetchFilteredPlatform = async (selectedPlatforms) => {
     setIsLoading(true);
     if (selectedPlatforms.length !== 0) {
-      setIsSelected({ platformSelected: true });
+      setIsSelected({ ...isSelected, platformSelected: true });
       try {
         const response = await fetch(
           `http://localhost:5030/api/games/search/platform/${selectedPlatforms.join(
@@ -85,7 +84,7 @@ const SearchPage = () => {
         console.error("Error fetching games:", error);
       }
     } else {
-      setIsSelected({ platformSelected: false });
+      setIsSelected({ ...isSelected, platformSelected: false });
       setFilteredPlatforms([]);
     }
   };
@@ -93,23 +92,30 @@ const SearchPage = () => {
   // Filter games based on genres and platforms
   useEffect(() => {
     const updateFilteredGames = () => {
-      if (filteredGenres.length === 0 && filteredPlatforms.length === 0) {
-        if (!isSelected.genreSelected && !isSelected.platformSelected) {
-          setFilteredGamesList(gamesList);
-        } else {
-          setFilteredGamesList([]);
-        }
-      } else if (filteredGenres.length > 0 && filteredPlatforms.length > 0) {
+      if (isSelected.genreSelected && isSelected.platformSelected) {
+        // Both selections are selected
         const filteredGames = filteredGenres.filter((game1) => {
           return filteredPlatforms.some(
             (game2) => game1.rawg_id === game2.rawg_id
           );
         });
+        console.log("Finding intersections");
         setFilteredGamesList(filteredGames);
-      } else if (filteredGenres.length > 0) {
-        setFilteredGamesList(filteredGenres);
-      } else {
+      } else if (!isSelected.genreSelected && !isSelected.platformSelected) {
+        // No selections are made
+        console.log("No selection");
+        setFilteredGamesList(gamesList);
+      } else if (!isSelected.genreSelected && isSelected.platformSelected) {
+        // Only platform is selected
         setFilteredGamesList(filteredPlatforms);
+        console.log("Displaying platform");
+      } else if (isSelected.genreSelected && !isSelected.platformSelected) {
+        // Only genre is selected
+        setFilteredGamesList(filteredGenres);
+        console.log("Displaying genres");
+      } else {
+        setFilteredGamesList([]);
+        console.log("IDk");
       }
     };
     updateFilteredGames();
@@ -119,9 +125,8 @@ const SearchPage = () => {
   useEffect(() => {
     const organizeGamesToRows = () => {
       const rows = [];
-      const games = filteredGamesList;
-      for (let i = 0; i < games.length; i += 4) {
-        rows.push(games.slice(i, i + 4));
+      for (let i = 0; i < filteredGamesList.length; i += 4) {
+        rows.push(filteredGamesList.slice(i, i + 4));
       }
       return rows;
     };
