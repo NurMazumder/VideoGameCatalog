@@ -33,9 +33,9 @@ const SearchPage = () => {
       }
     };
     if (query) {
-      fetchGames(`http://localhost:5030/api/games/search/name/${query}`);
+      fetchGames(`/api/games/search/name/${query}`);
     } else {
-      fetchGames("http://localhost:5030/api/games");
+      fetchGames("/api/games");
     }
   }, [query]);
 
@@ -46,9 +46,7 @@ const SearchPage = () => {
       setIsSelected({ ...isSelected, genreSelected: true });
       try {
         const response = await fetch(
-          `http://localhost:5030/api/games/search/genre/${selectedGenres.join(
-            " "
-          )}`
+          `/api/games/search/genre/${selectedGenres.join(" ")}`
         );
         const json = await response.json();
         const games = json.filter((data) =>
@@ -71,9 +69,7 @@ const SearchPage = () => {
       setIsSelected({ ...isSelected, platformSelected: true });
       try {
         const response = await fetch(
-          `http://localhost:5030/api/games/search/platform/${selectedPlatforms.join(
-            " "
-          )}`
+          `/api/games/search/platform/${selectedPlatforms.join(" ")}`
         );
         const json = await response.json();
         const games = json.filter((data) =>

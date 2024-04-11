@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 // @route   GET api/games/popular
-// @review  Get sorted games by popularity
+// @review  Get games sorted by popularity
 // @access  Public
 router.get("/popular", async (req, res) => {
   try {
@@ -32,12 +32,60 @@ router.get("/popular", async (req, res) => {
 });
 
 // @route   GET api/games/newrelease
-// @review  Get sorted games by release date
+// @review  Get games sorted by release date
 // @access  Public
 router.get("/newrelease", async (req, res) => {
   try {
     const count = req.query.count ? parseInt(req.query.count) : 10;
     const games = await Game.find().sort({ game_released: -1 }).limit(count);
+    res.json(games);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/games/action
+// @review  Get action games
+// @access  Public
+router.get("/action", async (req, res) => {
+  try {
+    const count = req.query.count ? parseInt(req.query.count) : 10;
+    const games = await Game.find({ game_genres: "Action" })
+      .sort({ game_rating: -1 })
+      .limit(count);
+    res.json(games);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/games/rpg
+// @review  Get rpg games
+// @access  Public
+router.get("/rpg", async (req, res) => {
+  try {
+    const count = req.query.count ? parseInt(req.query.count) : 10;
+    const games = await Game.find({ game_genres: "RPG" })
+      .sort({ game_rating: -1 })
+      .limit(count);
+    res.json(games);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/games/shooter
+// @review  Get rpg games
+// @access  Public
+router.get("/shooter", async (req, res) => {
+  try {
+    const count = req.query.count ? parseInt(req.query.count) : 10;
+    const games = await Game.find({ game_genres: "Shooter" })
+      .sort({ game_rating: -1 })
+      .limit(count);
     res.json(games);
   } catch (err) {
     console.error(err.message);
