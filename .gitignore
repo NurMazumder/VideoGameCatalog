@@ -33,6 +33,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-/VGC/node_modules
-node_modules
+
+./node_modules
+/config/default.json
 node_modules

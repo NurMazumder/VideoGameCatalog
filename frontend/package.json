@@ -58,6 +58,5 @@
     "start-server-and-test": "^2.0.3",
     "tailwindcss": "^3.4.3",
     "vite": "^4.5.3"
-  },
-  "proxy": "http://localhost:5030"
+  }
 }
