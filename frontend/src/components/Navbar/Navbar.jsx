@@ -46,7 +46,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   return (
     <nav className="navbar bg-dark">
       <h1>
-        <Link to={isAuthenticated ? "/search" : "/"}>VGC</Link>
+        <Link to={isAuthenticated ? "/main" : "/"}>VGC</Link>
       </h1>
       <SearchBar />
       {!loading && (isAuthenticated ? authLinks : visitorLinks)}
