@@ -1,24 +1,51 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const GameSchema = new Schema({
-  rawg_id: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
-  game_name: {
-    type: String,
-    required: true,
-  },
-  released: Date,
-  backgroundImage: {
-    type: String,
-    required: true,
-  },
-  website: String,
-  rating: Number,
-  ratingsCount: Number,
-});
+const gameSchema = new Schema({
+    rawg_id: {
+        type: Number,
+        unique: true
+    },
+    game_name: {
+        type: String, 
+        required: true
+    },
+    game_background_image: {
+        type: String,
+    },
+    game_genres: {
+        genreId:{
+            type: Number, 
+            unique: true
+        },
+        genreName: String
+    },
+    game_released: {
+        type: Date
+    },
+    game_tags : {
+        tagId:{
+            type: Number, 
+            unique: true
+        },
+        tagName: String
+    }, 
+    game_rating: {
+        type: Number
+    },
+    game_ratings_count: {
+        type: Number
+    },
+    game_platforms: {
+        platformId:{
+            type: Number, 
+            unique: true
+        },
+        platformName: String
+    },
+    game_esrb: {
+        type: String
+    }
+})
 
 module.exports = mongoose.model("gamestests", GameSchema, "gamestests");
