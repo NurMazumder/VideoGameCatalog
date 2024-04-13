@@ -11,7 +11,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     name: "",
     email: "",
     password: "",
-    password2: "",
   });
 
   const { name, email, password, password2 } = formData;
@@ -28,7 +27,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   // Redirect if authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/search"); // Redirecting using navigate
+      navigate("/main"); // Redirecting using navigate
     }
   }, [isAuthenticated, navigate]);
 

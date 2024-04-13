@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Auth.css";
-import { Link, useNavigate } from "react-router-dom"; // Updated import
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { login } from "../../actions/auth";
@@ -10,6 +10,12 @@ const Login = ({ login, isAuthenticated }) => {
   const { email, password } = formData;
   const navigate = useNavigate(); // Using useNavigate hook
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/main"); // Navigate to main page if authenticated
+    }
+  }, [isAuthenticated, navigate]);
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -18,13 +24,6 @@ const Login = ({ login, isAuthenticated }) => {
     e.preventDefault();
     login(email, password);
   };
-
-  {
-    /*if (isAuthenticated) {
-    navigate("/search"); // Programmatically navigate using navigate
-    return null; // Prevent further rendering
-  }*/
-  }
 
   return (
     <div className="auth-background">
