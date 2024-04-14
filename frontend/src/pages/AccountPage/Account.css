@@ -1,0 +1,67 @@
+/* General styling for the account container */
+.account-container {
+  max-width: 600px; /* Set a max width for the container */
+  margin: 70px auto 20px; /* Add margin to position under navbar, adjust the top margin based on your navbar's height */
+  padding: 20px;
+  background-color: #242323;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.account-header {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  margin-bottom: 20px;
+}
+
+.account-info,
+.account-update {
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: rgb(255, 255, 255);
+}
+
+p {
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+}
+
+/* Styling for input fields and button to make them the same width */
+.account-input,
+.account-button {
+  width: calc(100% - 22px); /* full width minus padding */
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+}
+
+.account-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.account-button:hover {
+  background-color: #45a049;
+}
+h3 {
+  display: block;
+  color: rgb(248, 248, 248);
+}
+
+/* Form label styling */
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: rgb(0, 0, 0);
+}
+
+/* Line break style - optional */
+br {
+  margin-bottom: 10px;
+}
