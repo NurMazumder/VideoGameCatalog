@@ -36,13 +36,19 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/account" element={<Account />} />
-
             <Route path="/main" element={<MainPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:query" element={<SearchPage />} />
             <Route path="/game/:id" element={<GamePage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route
+              path="/account"
+              element={
+                <PrivateRoute>
+                  <Account />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </section>
       </Router>
