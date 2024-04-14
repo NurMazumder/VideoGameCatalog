@@ -14,6 +14,8 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./actions/setAuthToken";
+import Account from "./pages/AccountPage/Account";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -23,6 +25,7 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
+
   return (
     <Provider store={store}>
       <Router>
@@ -38,6 +41,14 @@ const App = () => {
             <Route path="/search/:query" element={<SearchPage />} />
             <Route path="/game/:id" element={<GamePage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route
+              path="/account"
+              element={
+                <PrivateRoute>
+                  <Account />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </section>
       </Router>
