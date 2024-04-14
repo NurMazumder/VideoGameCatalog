@@ -12,9 +12,7 @@ const GamePage = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5030/api/games/id/${id}`
-        );
+        const response = await fetch(`/api/games/id/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch game");
         }

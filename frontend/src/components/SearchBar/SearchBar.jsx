@@ -5,19 +5,22 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
   let navigate = useNavigate(); // Use navigate hook
+
   // update input text
   const handleInput = (event) => {
     setSearchInput(event.target.value);
   };
+
   // Navigate to the search page
   const handleSearch = () => {
     if (searchInput.trim() !== "") {
       navigate(`/search/${searchInput}`);
     } else {
-      console.log("Search Input is empty");
+      return;
     }
     setSearchInput("");
   };
+
   return (
     <div className="search-container">
       <input

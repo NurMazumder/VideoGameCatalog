@@ -13,7 +13,7 @@ const GameCard = (props) => {
         ) : (
           <p>Error Processing Image</p>
         )}
-        <div className="description-container">
+        <div className="title-container">
           <h4 id="game-title">{props.title}</h4>
         </div>
       </Link>
