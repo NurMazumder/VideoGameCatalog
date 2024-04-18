@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Game = require("../../models/GamesTest");
 
+const auth = require("../../middleware/auth");
+
 // @route   GET api/games
 // @review  Get a list of all video games
 // @access  Public
