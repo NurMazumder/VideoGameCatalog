@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./SearchPage.css";
 import { useParams } from "react-router-dom";
 import GameCard from "../../components/GameCard/GameCard";
@@ -19,32 +19,37 @@ const SearchPage = () => {
     genreSelected: false,
     platformSelected: false,
   });
+  const searchPageRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(filteredGamesList.length / 40);
+  const [pageInput, setPageInput] = useState(1);
 
   // Get list of games
   useEffect(() => {
-    const fetchGames = async (url) => {
+    const fetchGames = async () => {
       try {
-        const response = await fetch(url);
+        setIsLoading(true);
+        const response = await fetch(
+          query ? `/api/games/search/name/${query}` : "/api/games"
+        );
         const json = await response.json();
+        if (!response.ok) {
+          throw new Error("Failed to fetch games");
+        }
         setGamesList(json);
-        setFilteredGamesList(json);
       } catch (error) {
         console.error("Error fetching games:", error);
       }
     };
-    if (query) {
-      fetchGames(`/api/games/search/name/${query}`);
-    } else {
-      fetchGames("/api/games");
-    }
+    fetchGames();
   }, [query]);
 
   // Fetch games based on genres
   const fetchFilteredGenre = async (selectedGenres) => {
-    setIsLoading(true);
     if (selectedGenres.length !== 0) {
       setIsSelected({ ...isSelected, genreSelected: true });
       try {
+        setIsLoading(true);
         const response = await fetch(
           `/api/games/search/genre/${selectedGenres.join(" ")}`
         );
@@ -64,10 +69,10 @@ const SearchPage = () => {
 
   // Fetch games based on platforms
   const fetchFilteredPlatform = async (selectedPlatforms) => {
-    setIsLoading(true);
     if (selectedPlatforms.length !== 0) {
       setIsSelected({ ...isSelected, platformSelected: true });
       try {
+        setIsLoading(true);
         const response = await fetch(
           `/api/games/search/platform/${selectedPlatforms.join(" ")}`
         );
@@ -87,48 +92,48 @@ const SearchPage = () => {
 
   // Filter games based on genres and platforms
   useEffect(() => {
-    const updateFilteredGames = () => {
-      if (isSelected.genreSelected && isSelected.platformSelected) {
-        // Both selections are selected
-        const filteredGames = filteredGenres.filter((game1) => {
-          return filteredPlatforms.some(
-            (game2) => game1.rawg_id === game2.rawg_id
-          );
-        });
-        console.log("Finding intersections");
-        setFilteredGamesList(filteredGames);
-      } else if (!isSelected.genreSelected && !isSelected.platformSelected) {
-        // No selections are made
-        console.log("No selection");
-        setFilteredGamesList(gamesList);
-      } else if (!isSelected.genreSelected && isSelected.platformSelected) {
-        // Only platform is selected
-        setFilteredGamesList(filteredPlatforms);
-        console.log("Displaying platform");
-      } else if (isSelected.genreSelected && !isSelected.platformSelected) {
-        // Only genre is selected
-        setFilteredGamesList(filteredGenres);
-        console.log("Displaying genres");
-      } else {
-        setFilteredGamesList([]);
-        console.log("IDk");
+    const filteredGames = () => {
+      try {
+        if (isSelected.genreSelected && isSelected.platformSelected) {
+          // Both selections are selected
+          const filteredGames = filteredGenres.filter((game1) => {
+            return filteredPlatforms.some(
+              (game2) => game1.rawg_id === game2.rawg_id
+            );
+          });
+          setFilteredGamesList(filteredGames);
+        } else if (!isSelected.genreSelected && !isSelected.platformSelected) {
+          // No selections are made
+          setFilteredGamesList(gamesList);
+        } else if (!isSelected.genreSelected && isSelected.platformSelected) {
+          // Only platform is selected
+          setFilteredGamesList(filteredPlatforms);
+        } else if (isSelected.genreSelected && !isSelected.platformSelected) {
+          // Only genre is selected
+          setFilteredGamesList(filteredGenres);
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
-    updateFilteredGames();
-  }, [filteredGenres, filteredPlatforms]);
+    filteredGames();
+    setCurrentPage(1);
+  }, [filteredGenres, filteredPlatforms, gamesList]);
 
   // Organize games into rows of 4
   useEffect(() => {
     const organizeGamesToRows = () => {
       const rows = [];
-      for (let i = 0; i < filteredGamesList.length; i += 4) {
+      const start = (currentPage - 1) * 40;
+      const end = Math.min(start + 40, filteredGamesList.length);
+      for (let i = start; i < end; i += 4) {
         rows.push(filteredGamesList.slice(i, i + 4));
       }
       return rows;
     };
     setIsLoading(false);
     setGameRows(organizeGamesToRows());
-  }, [gamesList, filteredGamesList]);
+  }, [filteredGamesList, currentPage]);
 
   // Get genres and platforms of the game list
   useEffect(() => {
@@ -149,6 +154,36 @@ const SearchPage = () => {
     populateGameData();
   }, [gamesList]);
 
+  // Change the page
+  const handlePageButton = (page) => {
+    setIsLoading(true);
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (searchPageRef.current) {
+      searchPageRef.current.scrollTo(0, 0);
+    }
+  };
+
+  // Change the page based on page input
+  const handlePageSearch = (e) => {
+    e.preventDefault();
+    const inputValue = parseInt(pageInput);
+    if (
+      isNaN(inputValue) ||
+      inputValue > totalPages ||
+      inputValue < 1 ||
+      inputValue === currentPage
+    ) {
+      return;
+    }
+    setIsLoading(true);
+    setCurrentPage(inputValue);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (searchPageRef.current) {
+      searchPageRef.current.scrollTo(0, 0);
+    }
+  };
+
   return (
     <div className="page-container">
       <div className="search-side-container">
@@ -163,15 +198,11 @@ const SearchPage = () => {
         <Loading />
       ) : (
         <div className="search-page-container">
-          <table className="search-table">
-            <thead>
-              <tr>
-                <th id="search-header">
-                  Games Found: {filteredGamesList.length}
-                </th>
-                <th colSpan="3"></th>
-              </tr>
-            </thead>
+          <div className="search-header">
+            <h2 className="mr-auto">Games Found: {filteredGamesList.length}</h2>
+            <h2>Pages Found: {totalPages} </h2>
+          </div>
+          <table className="search-table" ref={searchPageRef}>
             <tbody>
               {gameRows &&
                 gameRows.map((row, rowIndex) => (
@@ -190,6 +221,46 @@ const SearchPage = () => {
                 ))}
             </tbody>
           </table>
+          {totalPages === 1 ? null : (
+            <div className="pagination">
+              {totalPages < 10 ? (
+                <>
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    return (
+                      <button
+                        className={`${
+                          currentPage === pageNumber ? "selected" : ""
+                        }`}
+                        id="pagination-button"
+                        key={pageNumber}
+                        onClick={() => handlePageButton(pageNumber)}
+                      >
+                        {pageNumber}
+                      </button>
+                    );
+                  })}
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <h2>Current Page Number: {currentPage}</h2>
+
+                  <form className="pagination-form" onSubmit={handlePageSearch}>
+                    <input
+                      id="page-input"
+                      type="number"
+                      value={pageInput}
+                      placeholder="Enter page"
+                      onChange={(e) => setPageInput(e.target.value)}
+                    />
+                    <button type="submit" id="pagination-button">
+                      Go
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

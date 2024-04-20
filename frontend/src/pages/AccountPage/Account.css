@@ -19,15 +19,6 @@
   margin-bottom: 20px;
 }
 
-h2 {
-  color: rgb(255, 255, 255);
-}
-
-p {
-  font-size: 16px;
-  color: rgb(255, 255, 255);
-}
-
 /* Styling for input fields and button to make them the same width */
 .account-input,
 .account-button {
@@ -49,13 +40,14 @@ p {
 .account-button:hover {
   background-color: #45a049;
 }
-h3 {
+
+.account-container h3 {
   display: block;
   color: rgb(248, 248, 248);
 }
 
 /* Form label styling */
-label {
+.account-container label {
   display: block;
   margin-bottom: 10px;
   color: rgb(0, 0, 0);

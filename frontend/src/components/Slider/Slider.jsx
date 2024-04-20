@@ -11,8 +11,10 @@ const Slider = (props) => {
           <tr>
             <th id="slider-header">{props.type}</th>
             <th colSpan="8"></th>
-            <th id="view-link">
-              <Link to="/search">View More</Link>
+            <th>
+              <Link to="/search" id="view-link">
+                Explore
+              </Link>
             </th>
           </tr>
         </thead>

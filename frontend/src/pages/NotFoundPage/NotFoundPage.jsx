@@ -6,7 +6,7 @@ const NotFoundPage = () => {
   return (
     <div className="not-found-container">
       <h2>Thanks for visiting the site but the page doesn't exist.</h2>
-      <Link to="/" id="home-link">
+      <Link to="/main" id="home-link">
         Head back to our main page.
       </Link>
     </div>

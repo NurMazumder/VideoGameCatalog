@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
-  let navigate = useNavigate(); // Use navigate hook
+  let navigate = useNavigate();
 
   // update input text
   const handleInput = (event) => {
@@ -12,7 +12,8 @@ const SearchBar = () => {
   };
 
   // Navigate to the search page
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (searchInput.trim() !== "") {
       navigate(`/search/${searchInput}`);
     } else {
@@ -22,7 +23,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="search-container">
+    <form className="search-container" onSubmit={handleSearch}>
       <input
         type="text"
         className="search-input"
@@ -30,10 +31,10 @@ const SearchBar = () => {
         value={searchInput}
         onChange={handleInput}
       />
-      <button type="submit" id="search-button" onClick={handleSearch}>
+      <button type="submit" id="search-button">
         Search
       </button>
-    </div>
+    </form>
   );
 };
 

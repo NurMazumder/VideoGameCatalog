@@ -28,6 +28,6 @@ describe("NotFound Page", () => {
       name: "Head back to our main page.",
     });
     fireEvent.click(homeLink);
-    expect(window.location.pathname).toBe("/");
+    expect(window.location.pathname).toBe("/main");
   });
 });

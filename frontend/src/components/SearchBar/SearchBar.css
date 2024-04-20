@@ -1,5 +1,7 @@
 .search-container {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 500px;
 }
 
@@ -13,12 +15,14 @@
   margin-right: 5px;
   margin-left: 10px;
   width: 100%;
+  min-width: 200px;
 }
 
 #search-button {
   background-color: #55aec9;
   color: #ffffff;
   border: none;
+  width: 50%;
   padding: 5px 10px;
   cursor: pointer;
 }
