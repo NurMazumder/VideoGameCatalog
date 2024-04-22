@@ -40,7 +40,7 @@ describe("SearchBar Component", () => {
     const input = wrapper.find(".search-input");
     const searchButton = wrapper.find("#search-button");
     input.simulate("change", { target: { value: "Test" } });
-    searchButton.simulate("click");
+    searchButton.simulate("submit");
     expect(input.prop("value")).toEqual("");
     expect(window.location.pathname).toBe("/search/Test");
     wrapper.unmount();

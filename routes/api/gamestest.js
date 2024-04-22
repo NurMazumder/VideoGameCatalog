@@ -20,10 +20,44 @@ router.get("/", async (req, res) => {
 // @access  Public
 router.get("/popular", async (req, res) => {
   try {
-    const count = req.query.count ? parseInt(req.query.count) : 10;
-    const games = await Game.find()
-      .sort({ game_ratings_count: -1 })
-      .limit(count);
+    let games;
+    if (req.query.count) {
+      games = await Game.find()
+        .sort({
+          game_ratings_count: -1,
+          game_rating: -1,
+        })
+        .limit(parseInt(req.query.count));
+    } else {
+      games = await Game.find().sort({
+        game_ratings_count: -1,
+      });
+    }
+    res.json(games);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/games/unpopular
+// @review  Get games sorted by popularity by least to most
+// @access  Public
+router.get("/unpopular", async (req, res) => {
+  try {
+    let games;
+    if (req.query.count) {
+      games = await Game.find()
+        .sort({
+          game_ratings_count: 1,
+          game_rating: 1,
+        })
+        .limit(parseInt(req.query.count));
+    } else {
+      games = await Game.find().sort({
+        game_ratings_count: 1,
+      });
+    }
     res.json(games);
   } catch (err) {
     console.error(err.message);
@@ -34,10 +68,48 @@ router.get("/popular", async (req, res) => {
 // @route   GET api/games/newrelease
 // @review  Get games sorted by release date
 // @access  Public
-router.get("/newrelease", async (req, res) => {
+router.get("/newest", async (req, res) => {
   try {
-    const count = req.query.count ? parseInt(req.query.count) : 10;
-    const games = await Game.find().sort({ game_released: -1 }).limit(count);
+    let games;
+    if (req.query.count) {
+      games = await Game.find()
+        .sort({
+          game_released: -1,
+          game_ratings_count: -1,
+          game_rating: -1,
+        })
+        .limit(parseInt(req.query.count));
+    } else {
+      games = await Game.find().sort({
+        game_released: -1,
+      });
+    }
+    res.json(games);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   GET api/games/oldrelease
+// @review  Get games sorted by release date from oldest to newest
+// @access  Public
+router.get("/oldest", async (req, res) => {
+  try {
+    let games;
+    if (req.query.count) {
+      games = await Game.find()
+        .sort({
+          game_released: 1,
+          game_ratings_count: -1,
+          game_rating: -1,
+        })
+        .limit(parseInt(req.query.count));
+    } else {
+      games = await Game.find().sort({
+        game_released: 1,
+      });
+    }
     res.json(games);
   } catch (err) {
     console.error(err.message);

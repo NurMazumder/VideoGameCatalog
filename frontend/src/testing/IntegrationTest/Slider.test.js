@@ -19,7 +19,7 @@ describe("Slider Component", () => {
       </Router>
     );
     expect(wrapper.find("#slider-header").text()).toBe("Popular");
-    expect(wrapper.find("Link[to='/search']").text()).toBe("Explore");
+    expect(wrapper.find("Link[to='/search/popular']").text()).toBe("Explore");
     expect(wrapper.find("GameCard").exists()).toBe(true);
     wrapper.unmount();
   });

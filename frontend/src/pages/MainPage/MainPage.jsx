@@ -15,16 +15,16 @@ const MainPage = () => {
         const json = await response.json();
         setPopularGames(json);
       } catch (error) {
-        console.error("Error fetching popular games:", error);
+        console.error(error);
       }
     };
     const fetchNewGames = async () => {
       try {
-        const response = await fetch("/api/games/newrelease?count=10");
+        const response = await fetch("/api/games/newest?count=10");
         const json = await response.json();
         setNewGames(json);
       } catch (error) {
-        console.error("Error fetching new games:", error);
+        console.error(error);
       }
     };
     const fetchActionGames = async () => {
@@ -33,7 +33,7 @@ const MainPage = () => {
         const json = await response.json();
         setActionGames(json);
       } catch (error) {
-        console.error("Error fetching action games:", error);
+        console.error(error);
       }
     };
     const fetchRPGGames = async () => {
@@ -42,7 +42,7 @@ const MainPage = () => {
         const json = await response.json();
         setRPGGames(json);
       } catch (error) {
-        console.error("Error fetching rpg games:", error);
+        console.error(error);
       }
     };
     const fetchShooterGames = async () => {
@@ -51,7 +51,7 @@ const MainPage = () => {
         const json = await response.json();
         setShooterGames(json);
       } catch (error) {
-        console.error("Error fetching shooter games:", error);
+        console.error(error);
       }
     };
     fetchPopularGames();
@@ -65,7 +65,7 @@ const MainPage = () => {
     <div className="home-page">
       <div>
         <Slider type="Popular" games={popularGames} />
-        <Slider type="New Release" games={newGames} />
+        <Slider type="Newest" games={newGames} />
         <Slider type="Action" games={actionGames} />
         <Slider type="RPG" games={rpgGames} />
         <Slider type="Shooter" games={shooterGames} />

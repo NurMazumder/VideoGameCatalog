@@ -29,16 +29,27 @@ const SearchPage = () => {
     const fetchGames = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(
-          query ? `/api/games/search/name/${query}` : "/api/games"
-        );
-        const json = await response.json();
-        if (!response.ok) {
-          throw new Error("Failed to fetch games");
+        let url;
+        if (query) {
+          if (
+            query === "popular" ||
+            query === "newest" ||
+            query === "action" ||
+            query === "rpg" ||
+            query === "shooter"
+          ) {
+            url = `/api/games/${query.replace(/\s+/g, "")}`;
+          } else {
+            url = `api/games/search/name/${query}`;
+          }
+        } else {
+          url = "api/games";
         }
+        const response = await fetch(url);
+        const json = await response.json();
         setGamesList(json);
       } catch (error) {
-        console.error("Error fetching games:", error);
+        console.error(error);
       }
     };
     fetchGames();

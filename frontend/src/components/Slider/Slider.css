@@ -24,6 +24,7 @@
   font-style: italic;
   margin-left: auto;
   padding-left: 70%;
+  display: "inline-block";
 }
 
 #view-link:hover {

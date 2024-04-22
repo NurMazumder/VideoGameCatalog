@@ -12,7 +12,10 @@ const Slider = (props) => {
             <th id="slider-header">{props.type}</th>
             <th colSpan="8"></th>
             <th>
-              <Link to="/search" id="view-link">
+              <Link
+                to={`/search/${props.type.toLowerCase().replace(/\s+/g, "")}`}
+                id="view-link"
+              >
                 Explore
               </Link>
             </th>
