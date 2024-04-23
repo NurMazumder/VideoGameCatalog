@@ -23,7 +23,7 @@ describe("Navbar Component", () => {
         </Router>
       </Provider>
     );
-    expect(screen.getByText("myGames")).toBeInTheDocument();
+    expect(screen.getByText("My Games")).toBeInTheDocument();
     expect(screen.getByText("Account")).toBeInTheDocument();
     expect(screen.getByText("Logout")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
@@ -46,11 +46,32 @@ describe("Navbar Component", () => {
     expect(screen.getByText("Login")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
     expect(screen.getByText("VGC")).toBeInTheDocument();
-    expect(screen.queryByText("myGames")).toBeNull();
+    expect(screen.queryByText("My Games")).toBeNull();
     expect(screen.queryByText("Account")).toBeNull();
     expect(screen.queryByText("Logout")).toBeNull();
   });
-  it("Vistors clicking on VGC lead to default page", () => {
+  it("Navigation for users", () => {
+    const store = mockStore({
+      auth: { isAuthenticated: true, loading: false },
+    });
+    render(
+      <Provider store={store}>
+        <Router>
+          <Navbar />
+        </Router>
+      </Provider>
+    );
+    const homeButton = screen.getByText("VGC");
+    fireEvent.click(homeButton);
+    expect(window.location.pathname).toBe("/main");
+    const accountButton = screen.getByText("Account");
+    fireEvent.click(accountButton);
+    expect(window.location.pathname).toBe("/Account");
+    const myGamesButton = screen.getByText("My Games");
+    fireEvent.click(myGamesButton);
+    expect(window.location.pathname).toBe("/MyGames");
+  });
+  it("Navigation for visitors", () => {
     const store = mockStore({
       auth: { isAuthenticated: false, loading: false },
     });
@@ -61,12 +82,20 @@ describe("Navbar Component", () => {
         </Router>
       </Provider>
     );
-    const homelink = screen.getByText("VGC");
-    fireEvent.click(homelink);
+    const homeButton = screen.getByText("VGC");
+    fireEvent.click(homeButton);
     expect(window.location.pathname).toBe("/");
+    const registerButton = screen.getByText("Register");
+    fireEvent.click(registerButton);
+    expect(window.location.pathname).toBe("/Register");
+    const loginButton = screen.getByText("Login");
+    fireEvent.click(loginButton);
+    expect(window.location.pathname).toBe("/Login");
   });
-  it("Users clicking on VGC lead to main page", () => {
-    const store = mockStore({
+  {
+    /*
+  it("Users logging out", () => {
+    let store = mockStore({
       auth: { isAuthenticated: true, loading: false },
     });
     render(
@@ -76,24 +105,12 @@ describe("Navbar Component", () => {
         </Router>
       </Provider>
     );
-    const homelink = screen.getByText("VGC");
-    fireEvent.click(homelink);
-    expect(window.location.pathname).toBe("/main");
-  });
-  /*it("Users logging out", () => {
-    const store = mockStore({
-      auth: { isAuthenticated: true, loading: false },
-    });
-    render(
-      <Provider store={store}>
-        <Router>
-          <Navbar />
-        </Router>
-      </Provider>
-    );
-    const logout = screen.getByText("Logout");
-    console.log(logout)
-    fireEvent.click(logout);
+    const logoutButton = screen.getByText("Logout");
+    fireEvent.click(logoutButton);
+    expect(window.location.pathname).toBe("/");
+    expect(screen.getByText("Register")).toBeInTheDocument();
+    expect(screen.getByText("Login")).toBeInTheDocument();
     expect(store.getState().auth.isAuthenticated).toBe(false);
   });*/
+  }
 });

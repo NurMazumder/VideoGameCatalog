@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Slider = (props) => {
   return (
-    <div className="slider-container">
+    <div className="slider-container" data-testid={`${props.type}-slider`}>
       <table className="slider-table">
         <thead>
           <tr>

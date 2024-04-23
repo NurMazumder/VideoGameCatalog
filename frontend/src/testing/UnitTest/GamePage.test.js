@@ -44,6 +44,10 @@ describe("Game Page", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Mock game description.")).toBeInTheDocument();
     expect(screen.getByAltText("Game Image")).toBeInTheDocument();
+    expect(screen.getByAltText("Game Image")).toHaveAttribute(
+      "src",
+      "mock.jpg"
+    );
   });
   it("Renders not found page when fetching returns an error", async () => {
     useParams.mockReturnValue({ id: "1" });

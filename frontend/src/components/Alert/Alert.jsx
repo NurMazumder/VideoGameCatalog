@@ -4,7 +4,7 @@ import "./Alert.css";
 
 const Alert = ({ alerts }) => {
   return (
-    alerts !== null &&
+    alerts &&
     alerts.length > 0 && (
       <div className="alerts-container">
         {alerts.map((alert) => (

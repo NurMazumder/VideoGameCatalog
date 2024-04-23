@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: flex-start;
   height: 100vh;
+  width: auto;
   overflow-y: scroll;
   background-color: rgb(146, 141, 130);
 }

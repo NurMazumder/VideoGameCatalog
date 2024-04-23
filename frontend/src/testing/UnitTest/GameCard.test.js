@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import GameCard from "../../components/GameCard/GameCard";
 
@@ -38,8 +38,10 @@ describe("GameCard Component", () => {
         <GameCard id="123" />
       </Router>
     );
-    const linkElement = screen.getByTestId("game-card").querySelector("a");
-    expect(linkElement).toBeInTheDocument();
-    expect(linkElement.getAttribute("href")).toBe("/game/123");
+    const gamecard = screen.getByTestId("game-card").querySelector("a");
+    expect(gamecard).toBeInTheDocument();
+    expect(gamecard.getAttribute("href")).toBe("/game/123");
+    fireEvent.click(gamecard);
+    expect(window.location.pathname).toBe("/game/123");
   });
 });

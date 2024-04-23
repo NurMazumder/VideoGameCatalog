@@ -3,6 +3,7 @@ import axios from "axios";
 import { setAlert } from "../../actions/alert";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Loading from "../../components/Loading/Loading";
 import "./Account.css";
 
 const Account = ({ setAlert }) => {
@@ -31,7 +32,6 @@ const Account = ({ setAlert }) => {
         setAlert("Failed to fetch data. Please reload.", "danger");
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -55,7 +55,7 @@ const Account = ({ setAlert }) => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
   return (
