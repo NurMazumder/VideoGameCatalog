@@ -10,6 +10,7 @@ import MainPage from "./pages/MainPage/MainPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import GamePage from "./pages/GamePage/GamePage";
+import WishlistPage from "./pages/WishlistPage/WishlistPage";
 import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:query" element={<SearchPage />} />
             <Route path="/game/:id" element={<GamePage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route
               path="/account"

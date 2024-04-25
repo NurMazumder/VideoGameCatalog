@@ -27,6 +27,28 @@ const GamePage = () => {
     fetchGame();
   }, [id]);
 
+  const handleAddToWishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("JWT token:", token);
+      const response = await fetch("http://localhost:5030/api/wishlist/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token
+        },
+        body: JSON.stringify({ gameId: id })
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add game to wishlist");
+      }
+      alert("Game added to wishlist successfully!");
+    } catch (error) {
+      console.error("Error adding game to wishlist:", error);
+      alert("Failed to add game to wishlist");
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -63,6 +85,12 @@ const GamePage = () => {
               <p>
                 Tags: {gameDetails.game_tags.map((tags) => tags).join(", ")}
               </p>
+              <button
+                style={{ marginTop: "100px" }}
+                onClick={handleAddToWishlist}
+              >
+                Add Current Game to Wishlist
+              </button>
             </div>
             <div className="game-description-container">
               <p>{gameDetails.game_description}</p>
