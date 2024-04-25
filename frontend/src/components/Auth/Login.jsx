@@ -29,7 +29,7 @@ const Login = ({ login, isAuthenticated }) => {
     <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign In</h2>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="form">
           <div className="form-control">
             <input
               type="email"
@@ -51,8 +51,9 @@ const Login = ({ login, isAuthenticated }) => {
             />
             <label>Password</label>
           </div>
-
-          <button type="submit">Sign In</button>
+          <button type="submit" className="button">
+            Sign In
+          </button>
         </form>
         <p>
           Don't Have an Account? <Link to="/register">Sign Up</Link>

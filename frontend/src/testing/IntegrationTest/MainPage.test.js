@@ -1,93 +1,141 @@
-/*import React from "react";
-import Enzyme, { mount } from "enzyme";
-import Adapter from "@cfaester/enzyme-adapter-react-18";
-import { BrowserRouter } from "react-router-dom";
+import React from "react";
+import { render, screen, act, waitFor } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
 import MainPage from "../../pages/MainPage/MainPage";
 
-Enzyme.configure({ adapter: new Adapter() });
-describe("MainPage Component", () => {
-  const gameList = [
+describe("Main Page", () => {
+  const originalConsoleError = console.error;
+  afterEach(() => {
+    console.error = originalConsoleError;
+  });
+  const mockedPopularGames = [
     {
-      image: "Minecraft.png",
-      title: "Minecraft",
-      description:
-        "Minecraft is a 2011 sandbox game developed by Mojang Studios and originally released in 2009.",
-      releaseDate: "November 18, 2011",
-      price: "$26.95",
+      game_id: 1,
+      game_name: "Popular Game 1",
+      game_releaseDate: "2023-01-01",
+      game_backgroundimage: "popular_game_1.jpg",
     },
     {
-      image: "GTA5.png",
-      title: "GTA5",
-      description:
-        "Grand Theft Auto V is a 2013 action-adventure game developed by Rockstar North and published by Rockstar Games.",
-      releaseDate: "September 17, 2013",
-      price: "$29.99",
+      game_id: 2,
+      game_name: "Popular Game 2",
+      game_releaseDate: "2023-02-01",
+      game_backgroundimage: "popular_game_2.jpg",
+    },
+    {
+      game_id: 3,
+      game_name: "Popular Game 3",
+      game_releaseDate: "2023-03-01",
+      game_backgroundimage: "popular_game_3.jpg",
     },
   ];
-  it("Renders page correctly", () => {
-    const wrapper = mount(
-      <BrowserRouter>
-        <MainPage gameList={gameList} />
-      </BrowserRouter>
-    );
-    expect(wrapper.find("Slider").exists()).toBe(true);
-    expect(wrapper.find("GameInfoModal").exists()).toBe(false);
-    wrapper.unmount();
+  const mockedNewGames = [];
+  const mockedActionGames = [
+    {
+      game_id: 7,
+      game_name: "Action Game 1",
+      game_releaseDate: "2023-07-01",
+      game_backgroundimage: "action_game_1.jpg",
+    },
+    {
+      game_id: 8,
+      game_name: "Action Game 2",
+      game_releaseDate: "2023-08-01",
+      game_backgroundimage: "action_game_2.jpg",
+    },
+  ];
+  const mockedRPGGames = [
+    {
+      game_id: 9,
+      game_name: "RPG Game 1",
+      game_releaseDate: "2023-10-01",
+      game_backgroundimage: "rpg_game_1.jpg",
+    },
+  ];
+  const mockedShooterGames = [];
+
+  it("Renders main page correctly with mocked data", async () => {
+    global.fetch = jest.fn((url) => {
+      if (url.endsWith("/api/games/popular?count=10")) {
+        return Promise.resolve({
+          json: () => Promise.resolve(mockedPopularGames),
+        });
+      } else if (url.endsWith("/api/games/newest?count=10")) {
+        return Promise.resolve({
+          json: () => Promise.resolve(mockedNewGames),
+        });
+      } else if (url.endsWith("/api/games/action?count=10")) {
+        return Promise.resolve({
+          json: () => Promise.resolve(mockedActionGames),
+        });
+      } else if (url.endsWith("/api/games/rpg?count=10")) {
+        return Promise.resolve({
+          json: () => Promise.resolve(mockedRPGGames),
+        });
+      } else if (url.endsWith("/api/games/shooter?count=10")) {
+        return Promise.resolve({
+          json: () => Promise.resolve(mockedShooterGames),
+        });
+      } else {
+        return Promise.resolve({
+          json: () => Promise.resolve({}),
+        });
+      }
+    });
+    await act(async () => {
+      render(
+        <Router>
+          <MainPage />
+        </Router>
+      );
+    });
+    expect(screen.getByText("Popular")).toBeInTheDocument();
+    expect(screen.getByText("Newest")).toBeInTheDocument();
+    expect(screen.getByText("Action")).toBeInTheDocument();
+    expect(screen.getByText("RPG")).toBeInTheDocument();
+    expect(screen.getByText("Shooter")).toBeInTheDocument();
+    const popularSlider = screen.getByTestId("Popular-slider");
+    const newestSlider = screen.getByTestId("Newest-slider");
+    const actionSlider = screen.getByTestId("Action-slider");
+    const rpgSlider = screen.getByTestId("RPG-slider");
+    const shooterSlider = screen.getByTestId("Shooter-slider");
+    expect(
+      popularSlider.querySelectorAll("[data-testid='game-card']")
+    ).toHaveLength(mockedPopularGames.length);
+    expect(
+      newestSlider.querySelectorAll("[data-testid='game-card']")
+    ).toHaveLength(mockedNewGames.length);
+    expect(
+      actionSlider.querySelectorAll("[data-testid='game-card']")
+    ).toHaveLength(mockedActionGames.length);
+    expect(
+      rpgSlider.querySelectorAll("[data-testid='game-card']")
+    ).toHaveLength(mockedRPGGames.length);
+    expect(
+      shooterSlider.querySelectorAll("[data-testid='game-card']")
+    ).toHaveLength(mockedShooterGames.length);
   });
-  it("Renders game modal when no game data is provided", () => {
-    const wrapper = mount(
-      <BrowserRouter>
+  it("Renders main page correctly with errors", async () => {
+    console.error = jest.fn();
+    global.fetch = jest.fn(() =>
+      Promise.reject(new Error("Failed to fetch games"))
+    );
+    render(
+      <Router>
         <MainPage />
-      </BrowserRouter>
+      </Router>
     );
-    wrapper.find('Slider[type="Popular"]').prop("onClick")();
-    expect(wrapper.find("GameInfoModal").exists()).toBe(false);
-    wrapper.unmount();
-  });
-  it("Open and close modal when game card is clicked", () => {
-    const wrapper = mount(
-      <BrowserRouter>
-        <MainPage gameList={gameList} />
-      </BrowserRouter>
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(5);
+    });
+    expect(screen.queryByText("Popular")).toBeInTheDocument();
+    expect(screen.queryByText("Newest")).toBeInTheDocument();
+    expect(screen.queryByText("Action")).toBeInTheDocument();
+    expect(screen.queryByText("RPG")).toBeInTheDocument();
+    expect(screen.queryByText("Shooter")).toBeInTheDocument();
+    expect(console.error).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: "Failed to fetch games",
+      })
     );
-    const Slider = wrapper.find("Slider").first();
-    const firstCard = Slider.find("GameCard").first();
-    const secondCard = Slider.find("GameCard").at(1);
-    firstCard.simulate("click");
-    expect(wrapper.find("GameInfoModal").exists()).toBe(true);
-    expect(wrapper.find("GameInfoModal").prop("title")).toBe(gameList[0].title);
-    expect(wrapper.find("GameInfoModal").prop("description")).toBe(
-      gameList[0].description
-    );
-    expect(wrapper.find("GameInfoModal").prop("releaseDate")).toBe(
-      gameList[0].releaseDate
-    );
-    expect(wrapper.find("GameInfoModal").prop("price")).toBe(gameList[0].price);
-    wrapper.find("GameInfoModal").find("#modal-close-button").simulate("click");
-    expect(wrapper.find("GameInfoModal").exists()).toBe(false);
-    secondCard.simulate("click");
-    expect(wrapper.find("GameInfoModal").exists()).toBe(true);
-    expect(wrapper.find("GameInfoModal").prop("title")).toBe(gameList[1].title);
-    expect(wrapper.find("GameInfoModal").prop("description")).toBe(
-      gameList[1].description
-    );
-    expect(wrapper.find("GameInfoModal").prop("releaseDate")).toBe(
-      gameList[1].releaseDate
-    );
-    expect(wrapper.find("GameInfoModal").prop("price")).toBe(gameList[1].price);
-    wrapper.find("GameInfoModal").find("#modal-close-button").simulate("click");
-    expect(wrapper.find("GameInfoModal").exists()).toBe(false);
-    wrapper.unmount();
-  });
-  it("Navigates to search path when View More is clicked", () => {
-    const wrapper = mount(
-      <BrowserRouter>
-        <MainPage gameList={gameList} />
-      </BrowserRouter>
-    );
-    wrapper.find("Slider").first().find("#view-link").simulate("click");
-    expect(window.location.pathname).toBe("/search");
-    wrapper.unmount();
   });
 });
-*/

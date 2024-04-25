@@ -19,7 +19,7 @@ const GamePage = () => {
         const json = await response.json();
         setGameDetails(json);
       } catch (error) {
-        console.error("Error fetching game:", error);
+        console.error(error);
       } finally {
         setLoading(false);
       }

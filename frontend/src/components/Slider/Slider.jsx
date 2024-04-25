@@ -5,14 +5,19 @@ import { Link } from "react-router-dom";
 
 const Slider = (props) => {
   return (
-    <div className="slider-container">
+    <div className="slider-container" data-testid={`${props.type}-slider`}>
       <table className="slider-table">
         <thead>
           <tr>
             <th id="slider-header">{props.type}</th>
             <th colSpan="8"></th>
-            <th id="view-link">
-              <Link to="/search">View More</Link>
+            <th>
+              <Link
+                to={`/search/${props.type.toLowerCase().replace(/\s+/g, "")}`}
+                id="view-link"
+              >
+                Explore
+              </Link>
             </th>
           </tr>
         </thead>

@@ -19,11 +19,12 @@
 
 #view-link {
   color: white;
-  text-align: right;
   font-size: medium;
   font-family: "Courier New", Courier, monospace;
   font-style: italic;
-  padding-top: 10px;
+  margin-left: auto;
+  padding-left: 70%;
+  display: "inline-block";
 }
 
 #view-link:hover {
