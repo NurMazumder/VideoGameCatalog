@@ -46,6 +46,12 @@ const GameSchema = new Schema({
   game_esrb: {
     type: String,
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("gamestests", GameSchema, "gamestests");
