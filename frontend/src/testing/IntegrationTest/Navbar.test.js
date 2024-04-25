@@ -92,8 +92,8 @@ describe("Navbar Component", () => {
     fireEvent.click(loginButton);
     expect(window.location.pathname).toBe("/Login");
   });
-  {
-    /*
+
+  /*
   it("Users logging out", () => {
     let store = mockStore({
       auth: { isAuthenticated: true, loading: false },
@@ -112,5 +112,4 @@ describe("Navbar Component", () => {
     expect(screen.getByText("Login")).toBeInTheDocument();
     expect(store.getState().auth.isAuthenticated).toBe(false);
   });*/
-  }
 });

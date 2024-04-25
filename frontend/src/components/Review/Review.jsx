@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import "./Reviews.css";
+import "./Review.css";
 
 const Reviews = ({ gameId, isAuthenticated }) => {
   const [reviews, setReviews] = useState([]);

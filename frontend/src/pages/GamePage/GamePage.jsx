@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./GamePage.css";
-import Reviews from './Reviews';
+import Review from "../../components/Review/Review";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import Loading from "../../components/Loading/Loading";
 
@@ -45,7 +45,9 @@ const GamePage = () => {
             <div className="info-container">
               <div className="side-container">
                 <p>{gameDetails.game_name}</p>
-                <p>Release Date: {gameDetails.game_released.substring(0, 10)}</p>
+                <p>
+                  Release Date: {gameDetails.game_released.substring(0, 10)}
+                </p>
                 <p>
                   Genres:{" "}
                   {gameDetails.game_genres.map((genre) => genre).join(", ")}
@@ -71,7 +73,7 @@ const GamePage = () => {
               </div>
             </div>
             <div className="review-container">
-              <Reviews gameId={id} />
+              <Review gameId={id} />
             </div>
           </div>
         </div>
