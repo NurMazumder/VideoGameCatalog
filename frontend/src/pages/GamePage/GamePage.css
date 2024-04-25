@@ -23,11 +23,29 @@
   width: auto;
 }
 
+.info-and-review-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+}
+
 .info-container {
   display: flex;
   flex-direction: row;
   flex: 1;
   font-size: large;
+}
+
+.review-container {
+  width: 30%;
+  /* Adjust width as needed */
+  background-color: #404040;
+  /* Different background for differentiation */
+  padding: 5px;
+  overflow-y: auto;
+  /* for scrolling */
+  justify-content: center;
 }
 
 .side-container {
