@@ -52,3 +52,9 @@
   font-size: large;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
+
+.card-container {
+  display: inline-block; /* Change the display to inline-block */
+  margin: 50px; /* Add margin to separate the cards */
+  width: 300px; /* Set a fixed width for each card */
+}

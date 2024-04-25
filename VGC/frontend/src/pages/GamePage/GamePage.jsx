@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import "./Gamepage.css";
+import { useParams } from "react-router-dom";
+import "./GamePage.css";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const GamePage = () => {
   const { id } = useParams();
   const [gameDetails, setGameDetails] = useState(null);
   const [loading, setLoading] = useState(true);
-  // fetch game details from the backend
+
   useEffect(() => {
     const fetchGame = async () => {
       try {
@@ -25,6 +25,28 @@ const GamePage = () => {
     };
     fetchGame();
   }, [id]);
+
+  const handleAddToWishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("JWT token:", token);
+      const response = await fetch("http://localhost:5030/api/wishlist/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token
+        },
+        body: JSON.stringify({ gameId: id })
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add game to wishlist");
+      }
+      alert("Game added to wishlist successfully!");
+    } catch (error) {
+      console.error("Error adding game to wishlist:", error);
+      alert("Failed to add game to wishlist");
+    }
+  };
 
   return (
     <>
@@ -46,18 +68,18 @@ const GamePage = () => {
               <p>{gameDetails.game_name}</p>
               <p>Release Date: {gameDetails.game_released}</p>
               <p>Price: </p>
-              {/*<p>
-                Developers:{" "}
-                {gameDetails.developers
-                  .map((developer) => developer.name)
-                  .join(", ")}
-                </p>*/}
               <p>
                 Platforms:{" "}
                 {gameDetails.platforms
                   .map((platform) => platform.name)
                   .join(", ")}
               </p>
+              <button
+                style={{ marginTop: "100px" }}
+                onClick={handleAddToWishlist}
+              >
+                Add Current Game to Wishlist
+              </button>
             </div>
             <div className="game-description-container">
               <p>{gameDetails.description}</p>
