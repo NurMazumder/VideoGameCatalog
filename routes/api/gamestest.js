@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Game = require("../../models/GamesTest");
-const { check, validationResult } = require('express-validator');
+const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
 const Review = require("../../models/Review");
 const User = require("../../models/User");
@@ -174,7 +174,7 @@ router.get("/shooter", async (req, res) => {
 // @access  Public
 router.get("/id/:id", async (req, res) => {
   try {
-    const game = await Game.findOne({ rawg_id: req.params.id })
+    const game = await Game.findOne({ rawg_id: req.params.id });
     if (!game) {
       return res.status(404).json({ msg: "Video game not found" });
     }
@@ -239,20 +239,18 @@ router.get("/search/platform/:search", async (req, res) => {
   }
 });
 
-
 //// ---------review------------------------- /////
 
-
 // Get reviews for a specific game
-router.get('/review/:id', auth, async (req, res) => {
+router.get("/review/:id", async (req, res) => {
   try {
     const game = await Game.findOne({ rawg_id: req.params.id }).populate({
-      path: 'reviews',
+      path: "reviews",
       populate: {
-        path: 'author',
-        model: 'User',
-        select: 'name' // Assuming the user's name is stored in 'name' field
-      }
+        path: "author",
+        model: "User",
+        select: "name", // Assuming the user's name is stored in 'name' field
+      },
     });
     if (!game) {
       return res.status(404).json({ msg: "Game not found" });
@@ -260,10 +258,9 @@ router.get('/review/:id', auth, async (req, res) => {
     res.json(game.reviews);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 });
-
 
 // @route   POST api/games/review/:id
 // @desc    Post a review on a video game
@@ -273,7 +270,9 @@ router.get('/review/:id', auth, async (req, res) => {
 // @access  Private
 router.post("/review/:id", auth, async (req, res) => {
   try {
-    const game = await Game.findOne({ rawg_id: req.params.id }).populate("reviews");
+    const game = await Game.findOne({ rawg_id: req.params.id }).populate(
+      "reviews"
+    );
     if (!game) {
       return res.status(404).json({ msg: "Video game not found" });
     }
@@ -294,8 +293,6 @@ router.post("/review/:id", auth, async (req, res) => {
   }
 });
 
-
-
 // @route   DELETE api/games/review/:id/:review_id
 // @desc    Delete a review on a video game
 // @access  Private
@@ -315,19 +312,18 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
       return res.status(401).json({ msg: "User not authorized" });
     }
     await review.deleteOne();
-    game.reviews = game.reviews.filter(reviewId => reviewId.toString() !== req.params.review_id);
+    game.reviews = game.reviews.filter(
+      (reviewId) => reviewId.toString() !== req.params.review_id
+    );
     await game.save();
     res.json({ msg: "Review removed" });
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId') {
+    if (err.kind === "ObjectId") {
       return res.status(404).json({ msg: "Not found" });
     }
     res.status(500).send("Server error");
   }
 });
-
-
-
 
 module.exports = router;
