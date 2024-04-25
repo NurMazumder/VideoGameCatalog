@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import "./alert.css";
+import "./Alert.css";
 
 const Alert = ({ alerts }) => {
   return (
-    alerts !== null &&
+    alerts &&
     alerts.length > 0 && (
       <div className="alerts-container">
         {alerts.map((alert) => (

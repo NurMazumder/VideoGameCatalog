@@ -9,25 +9,25 @@ const FilterPanel = (props) => {
   const location = useLocation();
 
   // Handle genre checkbox inputs
-  const handleGenre = (event) => {
+  const handleGenre = (e) => {
     let updatedGenre;
-    if (event.target.checked) {
-      updatedGenre = [...genreInput, event.target.value];
+    if (e.target.checked) {
+      updatedGenre = [...genreInput, e.target.value];
     } else {
-      updatedGenre = genreInput.filter((genre) => genre !== event.target.value);
+      updatedGenre = genreInput.filter((genre) => genre !== e.target.value);
     }
     setGenreInput(updatedGenre);
     genreSelection(updatedGenre);
   };
 
   // Handle platform checkbox inputs
-  const handlePlatform = (event) => {
+  const handlePlatform = (e) => {
     let updatedPlatforms;
-    if (event.target.checked) {
-      updatedPlatforms = [...platformInput, event.target.value];
+    if (e.target.checked) {
+      updatedPlatforms = [...platformInput, e.target.value];
     } else {
       updatedPlatforms = platformInput.filter(
-        (platform) => platform !== event.target.value
+        (platform) => platform !== e.target.value
       );
     }
     setPlatformInput(updatedPlatforms);

@@ -27,6 +27,7 @@ const GamePage = () => {
     fetchGame();
   }, [id]);
 
+  
   const handleAddToWishlist = async () => {
     try {
       const token = localStorage.getItem("token");

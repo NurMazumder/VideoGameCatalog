@@ -1,10 +1,10 @@
 .card-container {
   border: solid gray;
-  width: 300px;
-  height: 180px;
+  width: 22vw;
+  height: 13vw;
   position: relative;
   color: antiquewhite;
-  margin: 2px;
+  border: 1px solid gainsboro;
 }
 
 .card-container:hover {
@@ -17,7 +17,7 @@
   margin-left: 0%;
 }
 
-.description-container {
+.title-container {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -39,7 +39,7 @@
   }
 }
 
-.card-container:hover .description-container {
+.card-container:hover .title-container {
   animation-name: slide-up;
   animation-duration: 1s;
   animation-fill-mode: forwards;

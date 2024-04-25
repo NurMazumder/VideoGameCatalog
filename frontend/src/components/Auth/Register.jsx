@@ -35,7 +35,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     <div className="auth-background">
       <div className="form-wrapper">
         <h2>Sign Up</h2>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="form">
           <div className="form-control">
             <input type="text" name="name" value={name} onChange={onChange} />
             <label>Name</label>
@@ -59,7 +59,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             <label>Password</label>
           </div>
 
-          <button type="submit">Sign Up</button>
+          <button type="submit" className="button">
+            Sign Up
+          </button>
         </form>
         <p>
           Already Have an Account? <Link to="/login">Sign In</Link>

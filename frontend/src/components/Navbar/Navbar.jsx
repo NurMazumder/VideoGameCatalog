@@ -1,24 +1,20 @@
 import React from "react";
 import "./Navbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import SearchBar from "../SearchBar/SearchBar";
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = (e) => {
-    e.preventDefault();
+  const handleLogout = () => {
     logout();
-    navigate("/");
   };
 
   const authLinks = (
     <ul>
       <li>
-        <Link to="/myGames">myGames</Link>
+        <Link to="/MyGames">My Games</Link>
       </li>
       <li>
         <Link to="/wishlist">Wishlist</Link>
@@ -27,10 +23,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to="/Account">Account</Link>
       </li>
       <li>
-        {/* Updated logout link to call handleLogout function */}
-        <a href="#!" onClick={handleLogout}>
+        <Link to="/" onClick={handleLogout}>
           Logout
-        </a>
+        </Link>
       </li>
     </ul>
   );
