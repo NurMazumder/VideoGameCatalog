@@ -40,10 +40,10 @@ const SearchPage = () => {
           ) {
             url = `/api/games/${query.replace(/\s+/g, "")}`;
           } else {
-            url = `api/games/search/name/${query}`;
+            url = `/api/games/search/name/${query}`;
           }
         } else {
-          url = "api/games";
+          url = "/api/games";
         }
         const response = await fetch(url);
         const json = await response.json();
