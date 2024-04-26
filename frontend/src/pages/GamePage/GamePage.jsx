@@ -9,6 +9,7 @@ const GamePage = () => {
   const { id } = useParams();
   const [gameDetails, setGameDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+
   // fetch game details from the backend
   useEffect(() => {
     const fetchGame = async () => {
@@ -32,7 +33,7 @@ const GamePage = () => {
     try {
       const token = localStorage.getItem("token");
       console.log("JWT token:", token);
-      const response = await fetch("http://localhost:5030/api/wishlist/", {
+      const response = await fetch("/api/wishlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

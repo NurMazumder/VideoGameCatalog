@@ -10,11 +10,11 @@ const WishlistPage = () => {
     const fetchWishlist = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:5030/api/wishlist/retrieve", {
+        const response = await fetch("/api/wishlist/retrieve", {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": token
-          }
+            "x-auth-token": token,
+          },
         });
         if (!response.ok) {
           throw new Error("Failed to fetch wishlist");
@@ -58,7 +58,7 @@ const GameCardWrapper = ({ gameId }) => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const response = await fetch(`http://localhost:5030/api/games/${gameId}`);
+        const response = await fetch(`/api/games/id/${gameId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch game");
         }
