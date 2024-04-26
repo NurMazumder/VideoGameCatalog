@@ -87,22 +87,27 @@ const Reviews = ({ gameId, isAuthenticated }) => {
           to submit a review.
         </p>
       )}
-
-      <h3>Reviews</h3>
-      {error && <div className="error-message">{error}</div>}
-      {reviews.map((review) => (
-        <div key={review._id} className="review">
-          <p>
-            <strong>{review.author.name}</strong>: {review.body} -{" "}
-            {review.rating}/5
-          </p>
-          {isAuthenticated && user && user._id === review.author._id && (
-            <button onClick={() => handleDeleteReview(review._id)}>
-              Delete
-            </button>
-          )}
+      {reviews.length > 0 ? (
+        <div className="reviews-section">
+          {error && <div className="error-message">{error}</div>}
+          <h3>Reviews</h3>
+          {reviews.map((review) => (
+            <div key={review._id} className="review">
+              <p>
+                <strong>{review.author.name}</strong>: {review.body} -{" "}
+                {review.rating}/5
+              </p>
+              {isAuthenticated && user && user._id === review.author._id && (
+                <button onClick={() => handleDeleteReview(review._id)}>
+                  Delete
+                </button>
+              )}
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <p>No reviews yet. Write one here!</p>
+      )}
     </div>
   );
 };
