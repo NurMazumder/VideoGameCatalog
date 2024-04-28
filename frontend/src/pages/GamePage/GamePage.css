@@ -1,71 +1,203 @@
-.game-details-container {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100vh;
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.container {
+  display: block;
+
+  margin: 30px auto;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 1200px;
+  background-color: #1f1f1f;
 }
 
-.side-info-container {
-  width: 25%;
-  padding: 5px;
-  background-color: #333333;
-  overflow-y: scroll;
+#bigcontainer {
+  margin-bottom: 25px;
+  padding: 30px 20px;
+}
+
+@media screen and (min-width: 768px) {
+  #bigcontainer #cover {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+  }
+
+  #bigcontainer #info-block {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+  }
+}
+
+#info {
+  height: auto;
+  padding: 10px;
+  text-align: left;
+}
+
+#info h1 {
+  font-size: 20px;
+}
+
+#info .buttons {
+  margin-top: 30px;
+}
+
+.btn {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 12px;
+  color: #fff;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  font-size: 100%;
+  height: 40px;
+  line-height: 40px;
+  margin: 3px;
+}
+
+.tooltip {
+  display: inline-block;
+  position: relative;
+  border-bottom: 1px dotted #666;
+  text-align: left;
+}
+
+.btn.btn-primary {
+  background-color: #2554ed;
+}
+
+#info .buttons .btn {
+  min-width: 120px;
+  text-align: center;
+  margin-left: 0;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.tooltip:hover {
+  opacity: 1;
+}
+
+.btn.btn-primary:active,
+.btn.btn-primary:hover {
+  color: #fff;
+  background: #54b2f1;
+}
+
+.btn.btn-secondary:active {
+  background: #516a83;
+}
+
+.tooltip .top {
   min-width: 150px;
+  top: -20px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  padding: 8px;
+  color: #444;
+  background-color: #eee;
+  font-weight: 400;
+  font-size: 13px;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 99999999;
+  box-sizing: border-box;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  display: none;
+  line-height: 17px;
 }
 
-.side-info-container p {
+.tooltip:hover .top {
+  display: block;
+}
+
+.tag {
+  font-size: 1em;
+  vertical-align: middle;
+  display: inline-flex;
+  margin: 0.13em;
+  flex-direction: row;
+  justify-content: center;
+  color: #d9d9d9;
+}
+
+.tag:hover {
+  color: #fff;
+}
+
+.tag> :first-child {
+  border-top-left-radius: 0.3em;
+  border-bottom-left-radius: 0.3em;
+}
+
+.tag .name {
+  display: flex;
+  padding: 0.13em 0.39em;
+  align-items: center;
+  background: #4d4d4d;
+}
+
+.tag-container .name {
+  font-weight: 700;
+}
+
+#info h1 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 20px;
+  padding-bottom: 50px;
+}
+
+.tag-container.field-name1 {
+  margin-top: 5px;
+  /* Spacing between each tag */
+  text-align: center;
+  display: flex;
+  padding: 0.13em 0.39em;
+  align-items: center;
+  background: #4d4d4d;
+}
+
+.covertags {
+  padding-top: 20px;
+}
+
+.container .d {
+  text-align: center;
   padding-bottom: 10px;
 }
 
-.info-container {
-  display: flex;
-  flex-direction: column;
-  font-size: large;
-  height: 100vh;
-  width: 100%;
-  min-width: 300px;
-}
-
-.game-image-container {
-  background-color: #2a2a2a;
-  height: 60vh;
-}
-
-#game-image {
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  width: auto;
-}
-
-.game-description-container {
-  height: 100%;
-  background-color: #222222;
+.container .r {
   text-align: center;
-  overflow-y: scroll;
+  padding-bottom: 10px;
 }
 
-.review-container {
-  width: 25%;
-  background-color: #333333;
-  padding: 5px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.container .prompt {
+  text-align: center;
+  padding-bottom: 10px;
+
 }
 
-#wishlist-button {
-  border: 2px solid black;
-  border-radius: 8px;
-  background-color: #222222;
-  color: antiquewhite;
-  margin-top: 5px;
-  padding: 10px;
-  width: 85%;
+.container .Reviews {
+  text-align: center;
+  padding-bottom: 10px;
+
 }
 
-#wishlist-button:hover {
-  background-color: black;
-  color: white;
+.container .delete {
+  padding-top: 10px;
+
+}
+
+.delete:hover {
+  color: rgb(187, 59, 59);
+
+}
+
+.prompt a {
+  text-decoration: underline;
 }
