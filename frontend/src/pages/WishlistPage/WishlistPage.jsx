@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import GameCard from "../../components/GameCard/GameCard";
+import GameRow from "../../components/GameRow/GameRow";
+import Loading from "../../components/Loading/Loading";
 
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -19,10 +19,10 @@ const WishlistPage = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch wishlist");
         }
-        const wishlistData = await response.json();
-        setWishlist(wishlistData);
+        const data = await response.json();
+        setWishlist(data);
       } catch (error) {
-        setError(error.message);
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -30,64 +30,23 @@ const WishlistPage = () => {
     fetchWishlist();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching wishlist: {error}</div>;
-  }
-
   return (
-    <div>
-      <h2>Wishlist</h2>
-      <div className="game-card-container">
-        {wishlist.map((gameId) => (
-          <GameCardWrapper key={gameId} gameId={gameId} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const GameCardWrapper = ({ gameId }) => {
-  const [game, setGame] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchGame = async () => {
-      try {
-        const response = await fetch(`/api/games/id/${gameId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch game");
-        }
-        const gameData = await response.json();
-        setGame(gameData);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchGame();
-  }, [gameId]);
-
-  if (loading) {
-    return <div>Loading game...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching game: {error}</div>;
-  }
-
-  return (
-    <GameCard
-      image={game.game_background_image}
-      title={game.game_name}
-      releaseDate={game.game_released}
-      id={game.rawg_id}
-    />
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-bold mt-5 mb-4">My Wishlist</h2>
+          <ul>
+            {wishlist.map((id) => (
+              <li key={id} className="rounded-lg shadow-md mb-3">
+                <GameRow id={id} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 

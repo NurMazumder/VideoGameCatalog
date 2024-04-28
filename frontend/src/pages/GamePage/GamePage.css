@@ -6,7 +6,7 @@
 }
 
 .side-info-container {
-  width: 25%;
+  width: 20%;
   padding: 5px;
   background-color: #333333;
   overflow-y: scroll;
@@ -46,7 +46,7 @@
 }
 
 .review-container {
-  width: 25%;
+  width: 30%;
   background-color: #333333;
   padding: 5px;
   overflow-y: auto;

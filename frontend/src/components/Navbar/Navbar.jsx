@@ -14,10 +14,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to="/MyGames">My Games</Link>
-      </li>
-      <li>
-        <Link to="/wishlist">Wishlist</Link>
+        <Link to="/Wishlist">Wishlist</Link>
       </li>
       <li>
         <Link to="/Account">Account</Link>

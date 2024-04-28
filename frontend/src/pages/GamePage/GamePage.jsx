@@ -15,9 +15,6 @@ const GamePage = () => {
     const fetchGame = async () => {
       try {
         const response = await fetch(`/api/games/id/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch game");
-        }
         const json = await response.json();
         setGameDetails(json);
       } catch (error) {

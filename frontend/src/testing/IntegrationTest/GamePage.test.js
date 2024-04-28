@@ -1,6 +1,8 @@
 import React from "react";
 import { render, screen, act } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
 import GamePage from "../../pages/GamePage/GamePage";
 import { useParams } from "react-router-dom";
 
@@ -8,6 +10,10 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useParams: jest.fn(),
 }));
+
+jest.mock("../../components/Review/Review", () => () => (
+  <div>Review Component</div>
+));
 
 describe("Game Page", () => {
   beforeEach(() => {
@@ -69,9 +75,9 @@ describe("Game Page", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Head back to our main page.")).toBeInTheDocument();
     expect(console.error).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: "Failed fetching game",
-      })
+      "Error fetching game:",
+      new Error("Failed fetching game")
     );
   });
+  it("Renders the reviews section", async () => {});
 });

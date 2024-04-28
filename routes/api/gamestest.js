@@ -265,9 +265,6 @@ router.get("/review/:id", async (req, res) => {
 // @route   POST api/games/review/:id
 // @desc    Post a review on a video game
 // @access  Private
-// @route   POST api/games/review/:id
-// @desc    Post a review on a video game
-// @access  Private
 router.post("/review/:id", auth, async (req, res) => {
   try {
     const game = await Game.findOne({ rawg_id: req.params.id }).populate(
