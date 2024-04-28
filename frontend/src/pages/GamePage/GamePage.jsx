@@ -150,8 +150,8 @@ const GamePage = ({ setAlert }) => {
             </div>
           </div>
 
-          <div class="container-about" id="about">
-            <h2>Discription</h2>
+          <div className="container" id="bigcontainer">
+            <h2 className="d">Discription</h2>
             <p>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               Necessitatibus tempore sunt dignissimos eligendi, iusto recusandae
