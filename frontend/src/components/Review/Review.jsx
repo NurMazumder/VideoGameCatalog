@@ -82,10 +82,13 @@ const Reviews = ({ gameId, isAuthenticated }) => {
           <button type="submit">Submit Review</button>
         </form>
       ) : (
-        <p className="login-prompt">
-          Please <a href="/login">Log In</a> or <a href="/register">Sign Up</a>{" "}
-          to submit a review.
-        </p>
+        <div class="container-about" id="about">
+          <h2>Post a Review</h2>
+          <p className="login-prompt">
+            Please <a href="/login">Log In</a> or{" "}
+            <a href="/register">Sign Up</a> to submit a review.
+          </p>
+        </div>
       )}
       {reviews.length > 0 ? (
         <div className="reviews-section">
