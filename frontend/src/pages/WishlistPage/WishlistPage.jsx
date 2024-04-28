@@ -16,9 +16,6 @@ const WishlistPage = () => {
             "x-auth-token": token,
           },
         });
-        if (!response.ok) {
-          throw new Error("Failed to fetch wishlist");
-        }
         const data = await response.json();
         setWishlist(data);
       } catch (error) {
@@ -39,7 +36,7 @@ const WishlistPage = () => {
           <h2 className="text-2xl font-bold mt-5 mb-4">My Wishlist</h2>
           <ul>
             {wishlist.map((id) => (
-              <li key={id} className="rounded-lg shadow-md mb-3">
+              <li key={id} className="mb-3">
                 <GameRow id={id} />
               </li>
             ))}

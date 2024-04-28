@@ -178,6 +178,9 @@ router.get("/id/:id", async (req, res) => {
     if (!game) {
       return res.status(404).json({ msg: "Video game not found" });
     }
+    /*if (game.game_description.length === 0) {
+      // Fetch data from RAWG and add to db
+    }*/
     res.json(game);
   } catch (err) {
     console.error(err.message);
