@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 // @route POST api/auth
 // @desc Register user
 // @access Public
-
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");

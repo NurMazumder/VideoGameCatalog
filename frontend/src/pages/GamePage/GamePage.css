@@ -130,7 +130,7 @@
   color: #fff;
 }
 
-.tag> :first-child {
+.tag > :first-child {
   border-top-left-radius: 0.3em;
   border-bottom-left-radius: 0.3em;
 }
@@ -179,23 +179,19 @@
 .container .prompt {
   text-align: center;
   padding-bottom: 10px;
-
 }
 
 .container .Reviews {
   text-align: center;
   padding-bottom: 10px;
-
 }
 
 .container .delete {
   padding-top: 10px;
-
 }
 
 .delete:hover {
   color: rgb(187, 59, 59);
-
 }
 
 .prompt a {

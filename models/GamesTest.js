@@ -10,6 +10,9 @@ const GameSchema = new Schema({
     type: String,
     required: true,
   },
+  game_description: {
+    type: String,
+  },
   game_background_image: {
     type: String,
   },

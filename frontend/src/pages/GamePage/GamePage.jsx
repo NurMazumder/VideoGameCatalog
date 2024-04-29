@@ -16,9 +16,6 @@ const GamePage = ({ setAlert }) => {
     const fetchGame = async () => {
       try {
         const response = await fetch(`/api/games/id/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch game");
-        }
         const json = await response.json();
         setGameDetails(json);
       } catch (error) {
@@ -33,7 +30,6 @@ const GamePage = ({ setAlert }) => {
   const handleAddToWishlist = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log("JWT token:", token);
       const response = await fetch("/api/wishlist", {
         method: "POST",
         headers: {
@@ -42,14 +38,12 @@ const GamePage = ({ setAlert }) => {
         },
         body: JSON.stringify({ gameId: id }),
       });
-      if (!response.ok) {
-        throw new Error("Failed to add game to wishlist");
-      }
       setAlert("Game added to wishlist successfully!", "success");
     } catch (error) {
       console.error("Error adding game to wishlist:", error);
       setAlert("Failed to add game to wishlist", "danger");
     }
+    alert("Failed to add game to wishlist");
   };
 
   return (
@@ -91,13 +85,11 @@ const GamePage = ({ setAlert }) => {
                 </div>
               </div>
             </div>
-
             <div id="info-block">
               <div id="info">
                 <h1 className="title">
                   <span className="">{gameDetails.game_name}</span>
                 </h1>
-
                 <section id="tags">
                   <div className="tag-container field-name">
                     Genres:
@@ -135,7 +127,6 @@ const GamePage = ({ setAlert }) => {
                     </span>
                   </div>
                 </section>
-
                 <div className="buttons">
                   <a className="btn btn-primary btn-disabled tooltip">
                     <button onClick={handleAddToWishlist}>
@@ -149,17 +140,10 @@ const GamePage = ({ setAlert }) => {
               </div>
             </div>
           </div>
-
           <div className="container" id="bigcontainer">
-            <h2 className="d">Discription</h2>
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Necessitatibus tempore sunt dignissimos eligendi, iusto recusandae
-              sequi fugit adipisci inventore et voluptatum, ab illo consequatur
-              eius architecto sit quia ex vero.
-            </p>
+            <h2 className="d">Description</h2>
+            <p>{gameDetails.game_description}</p>
           </div>
-
           <div className="container-reviews">
             <Review gameId={id} />
           </div>
