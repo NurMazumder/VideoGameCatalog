@@ -11,7 +11,6 @@ const PrivateRoute = ({
   if (!isAuthenticated && !loading) {
     return <Navigate to="/Login" />;
   }
-
   return children;
 };
 

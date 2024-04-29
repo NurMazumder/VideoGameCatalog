@@ -43,7 +43,6 @@ const GamePage = ({ setAlert }) => {
       console.error("Error adding game to wishlist:", error);
       setAlert("Failed to add game to wishlist", "danger");
     }
-    alert("Failed to add game to wishlist");
   };
 
   return (

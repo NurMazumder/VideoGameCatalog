@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./GameRow.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { setAlert } from "../../actions/alert";
+import { connect } from "react-redux";
 
-const GameRow = ({ id }) => {
+const GameRow = ({ id, setAlert }) => {
   const [game, setGame] = useState(null);
 
   // Get game data
@@ -25,7 +27,7 @@ const GameRow = ({ id }) => {
     try {
       await axios.delete(`/api/wishlist/delete/${id}`);
       window.location.reload();
-      alert("Game removed successfully");
+      setAlert("Game removed successfully", "success");
     } catch (error) {
       console.log(error);
     }
@@ -60,4 +62,4 @@ const GameRow = ({ id }) => {
   );
 };
 
-export default GameRow;
+export default connect(null, { setAlert })(GameRow);
