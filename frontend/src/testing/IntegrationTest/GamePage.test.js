@@ -6,6 +6,7 @@ import configureStore from "redux-mock-store";
 import GamePage from "../../pages/GamePage/GamePage";
 import { useParams } from "react-router-dom";
 
+const mockStore = configureStore([]);
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useParams: jest.fn(),
@@ -21,6 +22,7 @@ describe("Game Page", () => {
   });
 
   it("Renders game page with given data", async () => {
+    const store = mockStore({});
     useParams.mockReturnValue({ id: "1" });
     global.fetch = jest.fn().mockResolvedValueOnce({
       ok: true,
@@ -36,26 +38,33 @@ describe("Game Page", () => {
     });
     await act(async () => {
       render(
-        <Router>
-          <GamePage />
-        </Router>
+        <Provider store={store}>
+          <Router>
+            <GamePage />
+          </Router>
+        </Provider>
       );
     });
     expect(screen.getByText("Mock Game")).toBeInTheDocument();
     expect(screen.getByText("Release Date: 2022-01-01")).toBeInTheDocument();
-    expect(screen.getByText("Genres: Action, Adventure")).toBeInTheDocument();
-    expect(screen.getByText("Platforms: PC, PS5")).toBeInTheDocument();
-    expect(
-      screen.getByText("Tags: Singleplayer, Open World")
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Genres:/i)).toBeInTheDocument();
+    expect(screen.getByText("Action")).toBeInTheDocument();
+    expect(screen.getByText("Adventure")).toBeInTheDocument();
+    expect(screen.getByText(/Platforms:/i)).toBeInTheDocument();
+    expect(screen.getByText("PC")).toBeInTheDocument();
+    expect(screen.getByText("PS5")).toBeInTheDocument();
+    expect(screen.getByText(/Tags:/i)).toBeInTheDocument();
+    expect(screen.getByText("Singleplayer")).toBeInTheDocument();
+    expect(screen.getByText("Open World")).toBeInTheDocument();
     expect(screen.getByText("Mock game description.")).toBeInTheDocument();
-    expect(screen.getByAltText("Game Image")).toBeInTheDocument();
-    expect(screen.getByAltText("Game Image")).toHaveAttribute(
+    expect(screen.getByAltText("Game Background")).toBeInTheDocument();
+    expect(screen.getByAltText("Game Background")).toHaveAttribute(
       "src",
       "mock.jpg"
     );
   });
   it("Renders not found page when fetching returns an error", async () => {
+    const store = mockStore({});
     useParams.mockReturnValue({ id: "1" });
     console.error = jest.fn();
     global.fetch = jest
@@ -63,9 +72,11 @@ describe("Game Page", () => {
       .mockRejectedValueOnce(new Error("Failed fetching game"));
     await act(async () => {
       render(
-        <Router>
-          <GamePage />
-        </Router>
+        <Provider store={store}>
+          <Router>
+            <GamePage />
+          </Router>
+        </Provider>
       );
     });
     expect(
@@ -79,5 +90,5 @@ describe("Game Page", () => {
       new Error("Failed fetching game")
     );
   });
-  it("Renders the reviews section", async () => {});
+  /*it("Renders the reviews section", async () => {});*/
 });

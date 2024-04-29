@@ -63,7 +63,7 @@ describe("Review Component", () => {
         );
       })
     );
-    expect(await screen.findByText("Leave a Review!")).toBeInTheDocument();
+    expect(await screen.findByText("Leave a Review")).toBeInTheDocument();
     expect(await screen.findByText("Rate It:")).toBeInTheDocument();
     expect(await screen.findByText("Submit Review")).toBeInTheDocument();
     expect(
@@ -94,7 +94,7 @@ describe("Review Component", () => {
         );
       })
     );
-    expect(screen.queryByText("Leave a Review!")).toBeInTheDocument();
+    expect(screen.queryByText("Leave a Review")).not.toBeInTheDocument();
     expect(screen.queryByText("Rate It:")).not.toBeInTheDocument();
     expect(screen.queryByText("Submit Review")).not.toBeInTheDocument();
     expect(await screen.findByText("Log In")).toBeInTheDocument();
