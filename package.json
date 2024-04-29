@@ -16,7 +16,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.11",
@@ -33,6 +32,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.0",
     "vite": "^2.7.14"
