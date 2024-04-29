@@ -23,7 +23,8 @@ describe("Navbar Component", () => {
         </Router>
       </Provider>
     );
-    expect(screen.getByText("My Games")).toBeInTheDocument();
+    expect(screen.getByText("Explore")).toBeInTheDocument();
+    expect(screen.getByText("Wishlist")).toBeInTheDocument();
     expect(screen.getByText("Account")).toBeInTheDocument();
     expect(screen.getByText("Logout")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
@@ -46,7 +47,7 @@ describe("Navbar Component", () => {
     expect(screen.getByText("Login")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
     expect(screen.getByText("VGC")).toBeInTheDocument();
-    expect(screen.queryByText("My Games")).toBeNull();
+    expect(screen.queryByText("Wishlist")).toBeNull();
     expect(screen.queryByText("Account")).toBeNull();
     expect(screen.queryByText("Logout")).toBeNull();
   });
@@ -66,10 +67,10 @@ describe("Navbar Component", () => {
     expect(window.location.pathname).toBe("/main");
     const accountButton = screen.getByText("Account");
     fireEvent.click(accountButton);
-    expect(window.location.pathname).toBe("/Account");
-    const myGamesButton = screen.getByText("My Games");
-    fireEvent.click(myGamesButton);
-    expect(window.location.pathname).toBe("/MyGames");
+    expect(window.location.pathname).toBe("/account");
+    const wishlistButton = screen.getByText("Wishlist");
+    fireEvent.click(wishlistButton);
+    expect(window.location.pathname).toBe("/wishlist");
   });
   it("Navigation for visitors", () => {
     const store = mockStore({
@@ -87,10 +88,10 @@ describe("Navbar Component", () => {
     expect(window.location.pathname).toBe("/");
     const registerButton = screen.getByText("Register");
     fireEvent.click(registerButton);
-    expect(window.location.pathname).toBe("/Register");
+    expect(window.location.pathname).toBe("/register");
     const loginButton = screen.getByText("Login");
     fireEvent.click(loginButton);
-    expect(window.location.pathname).toBe("/Login");
+    expect(window.location.pathname).toBe("/login");
   });
 
   /*
