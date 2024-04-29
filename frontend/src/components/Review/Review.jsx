@@ -4,12 +4,13 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import "./Review.css";
 
-const Reviews = ({ gameId, isAuthenticated }) => {
+const Review = ({ gameId }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewBody, setReviewBody] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [error, setError] = useState("");
   const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     fetchReviews();
@@ -20,7 +21,7 @@ const Reviews = ({ gameId, isAuthenticated }) => {
       const response = await axios.get(`/api/games/review/${gameId}`);
       setReviews(response.data);
     } catch (error) {
-      console.error("Error fetching reviews:", error.response.data.message);
+      console.error("Error fetching reviews:", error.message);
     }
   };
 
@@ -37,18 +38,20 @@ const Reviews = ({ gameId, isAuthenticated }) => {
       });
       setReviewBody("");
       setReviewRating(5);
-      fetchReviews(); // Reload reviews
+      setReviews(response.data);
       setError("");
     } catch (error) {
-      setError(error.response.data.message || "Error posting review");
-      console.error("Error posting review:", error.response.data.message);
+      setError("Error posting review");
+      console.error("Error posting review:", error.message);
     }
   };
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await axios.delete(`/api/games/review/${gameId}/${reviewId}`);
-      fetchReviews(); // Reload reviews
+      const response = await axios.delete(
+        `/api/games/review/${gameId}/${reviewId}`
+      );
+      setReviews(response.data);
     } catch (error) {
       const errorMessage =
         error.response && error.response.data && error.response.data.msg
@@ -112,8 +115,4 @@ const Reviews = ({ gameId, isAuthenticated }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps)(Reviews);
+export default Review;

@@ -270,22 +270,28 @@ router.get("/review/:id", async (req, res) => {
 // @access  Private
 router.post("/review/:id", auth, async (req, res) => {
   try {
-    const game = await Game.findOne({ rawg_id: req.params.id }).populate(
+    let game = await Game.findOne({ rawg_id: req.params.id }).populate(
       "reviews"
     );
     if (!game) {
       return res.status(404).json({ msg: "Video game not found" });
     }
-
     const newReview = new Review({
       body: req.body.body,
       rating: req.body.rating,
       author: req.user.id,
     });
-
     await newReview.save();
     game.reviews.unshift(newReview._id);
     await game.save();
+    await game.populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+        model: "User",
+        select: "name",
+      },
+    });
     res.json(game.reviews);
   } catch (err) {
     console.error(err.message);
@@ -299,7 +305,7 @@ router.post("/review/:id", auth, async (req, res) => {
 // Correcting the route to use the appropriate identifier
 router.delete("/review/:id/:review_id", auth, async (req, res) => {
   try {
-    const game = await Game.findOne({ rawg_id: req.params.id });
+    let game = await Game.findOne({ rawg_id: req.params.id });
     if (!game) {
       return res.status(404).json({ msg: "Video game not found" });
     }
@@ -316,7 +322,15 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
       (reviewId) => reviewId.toString() !== req.params.review_id
     );
     await game.save();
-    res.json({ msg: "Review removed" });
+    await game.populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+        model: "User",
+        select: "name",
+      },
+    });
+    res.json(game.reviews);
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
