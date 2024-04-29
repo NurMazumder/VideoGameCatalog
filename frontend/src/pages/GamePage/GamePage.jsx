@@ -4,13 +4,14 @@ import "./GamePage.css";
 import Review from "../../components/Review/Review";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import Loading from "../../components/Loading/Loading";
+import { setAlert } from "../../actions/alert";
+import { connect } from "react-redux";
 
-const GamePage = () => {
+const GamePage = ({ setAlert }) => {
   const { id } = useParams();
   const [gameDetails, setGameDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // fetch game details from the backend
   useEffect(() => {
     const fetchGame = async () => {
       try {
@@ -27,18 +28,24 @@ const GamePage = () => {
   }, [id]);
 
   const handleAddToWishlist = async () => {
-    const token = localStorage.getItem("token");
-    const response = await fetch("/api/wishlist", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": token,
-      },
-      body: JSON.stringify({ gameId: id }),
-    });
-    if (response.ok) {
-      alert("Game added to wishlist successfully!");
-      return;
+    try {
+      const token = localStorage.getItem("token");
+      console.log("JWT token:", token);
+      const response = await fetch("/api/wishlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify({ gameId: id }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to add game to wishlist");
+      }
+      setAlert("Game added to wishlist successfully!", "success");
+    } catch (error) {
+      console.error("Error adding game to wishlist:", error);
+      setAlert("Failed to add game to wishlist", "danger");
     }
     alert("Failed to add game to wishlist");
   };
@@ -48,37 +55,110 @@ const GamePage = () => {
       {loading ? (
         <Loading />
       ) : gameDetails ? (
-        <div className="game-details-container">
-          <div className="side-info-container">
-            <p>{gameDetails.game_name}</p>
-            <p>Release Date: {gameDetails.game_released.substring(0, 10)}</p>
-            <p>
-              Genres: {gameDetails.game_genres.map((genre) => genre).join(", ")}
-            </p>
-            <p>
-              Platforms:{" "}
-              {gameDetails.game_platforms
-                .map((platform) => platform)
-                .join(", ")}
-            </p>
-            <p>Tags: {gameDetails.game_tags.join(", ")}</p>
-          </div>
-          <div className="info-container">
-            <div className="game-image-container">
+        <div>
+          <div className="container" id="bigcontainer">
+            <div id="cover">
               <img
                 src={gameDetails.game_background_image}
-                alt="Game Image"
-                id="game-image"
+                width="550"
+                height="590"
+                alt="Game Background"
               />
+              <div className="covertags">
+                <div className="tag-container field-name">
+                  ESRB Rating:
+                  <span className="tags">
+                    <span className="tag">
+                      <span className="name">
+                        {gameDetails.game_esrb || "Not Rated"}
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div className="tag-container field-name">
+                  Rating:
+                  <span className="tags">
+                    <span className="tag">
+                      <span className="name">
+                        {gameDetails.game_rating
+                          ? `${gameDetails.game_rating} / 5`
+                          : "Not Rated"}
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="game-description-container">
-              <p>{gameDetails.game_description}</p>
+
+            <div id="info-block">
+              <div id="info">
+                <h1 className="title">
+                  <span className="">{gameDetails.game_name}</span>
+                </h1>
+
+                <section id="tags">
+                  <div className="tag-container field-name">
+                    Genres:
+                    <span className="tags">
+                      {gameDetails.game_genres.map((genre, index) => (
+                        <span key={index} className="tag">
+                          <span className="name">{genre}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <div className="tag-container field-name">
+                    Platforms:
+                    <span className="tags">
+                      {gameDetails.game_platforms.map((platform, index) => (
+                        <span key={index} className="tag">
+                          <span className="name">{platform}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <div className="tag-container field-name">
+                    Tags:
+                    <span className="tags">
+                      {gameDetails.game_tags.map((tag, index) => (
+                        <span key={index} className="tag">
+                          <span className="name">{tag}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <div className="tag-container field-name">
+                    <span className="tags">
+                      Release Date: {gameDetails.game_released.substring(0, 10)}
+                    </span>
+                  </div>
+                </section>
+
+                <div className="buttons">
+                  <a className="btn btn-primary btn-disabled tooltip">
+                    <button onClick={handleAddToWishlist}>
+                      Add to wishlist
+                    </button>
+                    <div className="top">
+                      You need to log in to add to Wishlist!<i></i>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="review-container">
-            <button id="wishlist-button" onClick={handleAddToWishlist}>
-              Add to wishlist
-            </button>
+
+          <div className="container" id="bigcontainer">
+            <h2 className="d">Discription</h2>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+              Necessitatibus tempore sunt dignissimos eligendi, iusto recusandae
+              sequi fugit adipisci inventore et voluptatum, ab illo consequatur
+              eius architecto sit quia ex vero.
+            </p>
+          </div>
+
+          <div className="container-reviews">
             <Review gameId={id} />
           </div>
         </div>
@@ -89,4 +169,4 @@ const GamePage = () => {
   );
 };
 
-export default GamePage;
+export default connect(null, { setAlert })(GamePage);
