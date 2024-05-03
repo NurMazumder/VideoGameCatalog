@@ -141,13 +141,10 @@ router.delete("/:id", auth, async (req, res) => {
       }
 */
     const videoGame = await VideoGame.findById(req.params.id);
-
     if (!videoGame) {
       return res.status(404).json({ msg: "Video game not found" });
     }
-
     await VideoGame.findByIdAndDelete(req.params.id);
-
     res.json({ msg: "Video game removed" });
   } catch (err) {
     console.error(err.message);
@@ -173,11 +170,9 @@ router.put(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     try {
       let videoGame = await VideoGame.findById(req.params.id);
       if (!videoGame) {
@@ -206,9 +201,7 @@ router.put(
         rawgId,
         // Include other fields as necessary
       } = req.body;
-
       const videoGameFields = {};
-
       if (name) videoGameFields.name = name;
       if (description) videoGameFields.description = description;
       if (released) videoGameFields.released = released;
@@ -294,20 +287,15 @@ router.post(
 router.delete("/review/:id/:review_id", auth, async (req, res) => {
   try {
     const review = await Review.findById(req.params.review_id);
-
     if (!review) {
       return res.status(404).json({ msg: "Review does not exist" });
     }
-
     const user = await User.findById(req.user.id);
-
     // Checking if the user is the author of the review or the site owner/admin
     if (review.author.toString() !== req.user.id && user.role !== "admin") {
       return res.status(401).json({ msg: "User not authorized" });
     }
-
     await review.remove();
-
     // Assuming you need to update the video game model after review deletion,
     // you would fetch the video game here and remove the review from its reviews array.
     const videoGame = await VideoGame.findById(req.params.id);
@@ -317,7 +305,6 @@ router.delete("/review/:id/:review_id", auth, async (req, res) => {
       );
       await videoGame.save();
     }
-
     res.json({ msg: "Review removed" });
   } catch (err) {
     console.error(err.message);

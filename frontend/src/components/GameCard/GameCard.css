@@ -51,9 +51,3 @@
   font-size: large;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
-
-.card-container {
-  display: inline-block;
-  margin: 50px; 
-  width: 300px;
-}

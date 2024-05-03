@@ -40,10 +40,10 @@ const SearchPage = () => {
           ) {
             url = `/api/games/${query.replace(/\s+/g, "")}`;
           } else {
-            url = `api/games/search/name/${query}`;
+            url = `/api/games/search/name/${query}`;
           }
         } else {
-          url = "api/games";
+          url = "/api/games";
         }
         const response = await fetch(url);
         const json = await response.json();
@@ -142,8 +142,8 @@ const SearchPage = () => {
       }
       return rows;
     };
-    setIsLoading(false);
     setGameRows(organizeGamesToRows());
+    setIsLoading(false);
   }, [filteredGamesList, currentPage]);
 
   // Get genres and platforms of the game list
@@ -185,6 +185,7 @@ const SearchPage = () => {
       inputValue < 1 ||
       inputValue === currentPage
     ) {
+      alert("Invalid page number");
       return;
     }
     setIsLoading(true);

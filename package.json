@@ -17,6 +17,7 @@
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.11",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "gravatar": "^1.8.2",
@@ -26,8 +27,7 @@
     "react-redux": "^9.1.0",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
-    "request": "^2.88.2",
-    "cors": "^2.8.5"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

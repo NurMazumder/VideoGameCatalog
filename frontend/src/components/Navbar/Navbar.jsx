@@ -14,13 +14,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to="/MyGames">My Games</Link>
+        <Link to="/search">Explore</Link>
       </li>
       <li>
         <Link to="/wishlist">Wishlist</Link>
       </li>
       <li>
-        <Link to="/Account">Account</Link>
+        <Link to="/account">Account</Link>
       </li>
       <li>
         <Link to="/" onClick={handleLogout}>
@@ -33,10 +33,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const visitorLinks = (
     <ul>
       <li>
-        <Link to="/Register">Register</Link>
+        <Link to="/search">Explore</Link>
       </li>
       <li>
-        <Link to="/Login">Login</Link>
+        <Link to="/register">Register</Link>
+      </li>
+      <li>
+        <Link to="/login">Login</Link>
       </li>
     </ul>
   );
