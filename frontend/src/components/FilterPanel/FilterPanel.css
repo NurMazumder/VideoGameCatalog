@@ -1,0 +1,28 @@
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  width: auto;
+  overflow-y: scroll;
+  background-color: rgb(146, 141, 130);
+}
+
+.panel-container legend {
+  font-size: x-large;
+  color: lightgoldenrodyellow;
+  text-align: center;
+}
+
+.panel-container ul {
+  margin-bottom: 15px;
+}
+
+.checkbox-selector {
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.checkbox-selector input {
+  margin-right: 5px;
+}

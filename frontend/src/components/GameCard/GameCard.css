@@ -1,0 +1,53 @@
+.card-container {
+  border: solid gray;
+  width: 22vw;
+  height: 13vw;
+  position: relative;
+  color: antiquewhite;
+  border: 1px solid gainsboro;
+}
+
+.card-container:hover {
+  cursor: pointer;
+}
+
+#game-card-image {
+  width: 100%;
+  height: 100%;
+  margin-left: 0%;
+}
+
+.title-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 0%;
+  width: 100%;
+  background-color: #333333;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes slide-up {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 30%;
+  }
+}
+
+.card-container:hover .title-container {
+  animation-name: slide-up;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+#game-title {
+  padding: 2px;
+  margin: 2px;
+  font-size: large;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}

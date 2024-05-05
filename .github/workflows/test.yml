@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Run npm install
+      working-directory: frontend
+      run: |
+          npm install
+          npm run build
+          npm run test
+          npm run coverage
+      shell: bash
