@@ -24,6 +24,7 @@ jobs:
             - name: Build frontend
               working-directory: frontend
               run: npm run build
+              
             - name: Package application
               run: cd frontend && zip -r videogamecatalog-${{ github.run_id }}.zip ./dist  
 
