@@ -4,11 +4,11 @@
     "description": "A video game catalog made with MERN stack.",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js",
-      "server": "nodemon server.js",
-      "backend": "cd backend && npm start",
-      "frontend": "cd frontend && npm run dev",
-      "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+        "start": "node server.js",
+        "server": "nodemon server.js",
+        "backend": "cd backend && npm start",
+        "frontend": "cd frontend && npm run dev",
+        "dev": "concurrently \"npm run backend\" \"npm run frontend\""
     },
     "devDependencies": {
         "concurrently": "^8.2.2"
