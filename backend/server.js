@@ -16,7 +16,8 @@ app.use(express.json({ extended: false }));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/videogames", require("./routes/api/videogames"));
-app.use("/api/games", require("./routes/api/gamesTest"));
+app.use("/api/games", require("./routes/api/games"));
+app.use("/api/reviews", require("./routes/api/reviews"));
 app.use("/api/wishlist", require("./routes/api/wishlist"));
 
 //serve static assets

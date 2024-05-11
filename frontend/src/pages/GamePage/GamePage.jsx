@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import "./GamePage.css";
+import { useParams } from "react-router-dom";
 import Review from "../../components/Review/Review";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import Loading from "../../components/Loading/Loading";
@@ -19,7 +19,7 @@ const GamePage = ({ setAlert }) => {
         const json = await response.json();
         setGameDetails(json);
       } catch (error) {
-        console.error("Error fetching game:", error);
+        setAlert("Failed fetching game details.", "danger");
       } finally {
         setLoading(false);
       }
@@ -38,12 +38,14 @@ const GamePage = ({ setAlert }) => {
         },
         body: JSON.stringify({ gameId: id }),
       });
-      setAlert("Game added to wishlist successfully!", "success");
+      if (response.status === 200) {
+        setAlert("Game added to wishlist successfully!", "success");
+      } else {
+        setAlert("Cannot add game to wishlist.", "warning");
+      }
     } catch (error) {
-      console.error("Error adding game to wishlist:", error);
       setAlert("Failed to add game to wishlist", "danger");
     }
-    alert("Failed to add game to wishlist");
   };
 
   return (

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./GameRow.css";
 import { Link } from "react-router-dom";
+import { setAlert } from "../../actions/alert";
+import { connect } from "react-redux";
 import axios from "axios";
 
-const GameRow = ({ id }) => {
+const GameRow = ({ id, setAlert, onClick }) => {
   const [game, setGame] = useState(null);
 
   // Get game data
@@ -14,7 +16,7 @@ const GameRow = ({ id }) => {
         const gameData = await response.json();
         setGame(gameData);
       } catch (error) {
-        console.log(error);
+        alert("Failed to retrieve game data!", "danger");
       }
     };
     fetchGame();
@@ -24,10 +26,10 @@ const GameRow = ({ id }) => {
   const handleRemove = async () => {
     try {
       await axios.delete(`/api/wishlist/delete/${id}`);
-      window.location.reload();
-      alert("Game removed successfully");
+      onClick(id);
+      setAlert("Game removed successfully", "success");
     } catch (error) {
-      console.log(error);
+      setAlert("Failed to remove game from wishlist!", "danger");
     }
   };
 
@@ -60,4 +62,4 @@ const GameRow = ({ id }) => {
   );
 };
 
-export default GameRow;
+export default connect(null, { setAlert })(GameRow);

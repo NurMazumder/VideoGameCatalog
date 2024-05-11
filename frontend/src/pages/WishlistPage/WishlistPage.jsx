@@ -27,6 +27,12 @@ const WishlistPage = () => {
     fetchWishlist();
   }, []);
 
+  // Filter game list when a game is removed from wishlist
+  const filterGames = (id) => {
+    const filteredGames = wishlist.filter((gameId) => gameId !== id);
+    setWishlist(filteredGames);
+  };
+
   return (
     <>
       {loading ? (
@@ -34,13 +40,17 @@ const WishlistPage = () => {
       ) : (
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mt-5 mb-4">My Wishlist</h2>
-          <ul>
-            {wishlist.map((id) => (
-              <li key={id} className="mb-3">
-                <GameRow id={id} />
-              </li>
-            ))}
-          </ul>
+          {wishlist.length > 0 ? (
+            <ul>
+              {wishlist.map((id) => (
+                <li key={id} className="mb-3">
+                  <GameRow id={id} onClick={filterGames} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <h2>You haven't add any games to wishlist. Find games you like!</h2>
+          )}
         </div>
       )}
     </>
