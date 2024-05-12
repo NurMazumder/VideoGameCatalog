@@ -22,6 +22,40 @@ const SearchPage = () => {
   const totalPages = Math.ceil(filteredGamesList.length / 40);
   const [pageInput, setPageInput] = useState(1);
 
+  const genreList = [
+    "Shooter",
+    "Puzzle",
+    "Action",
+    "RPG",
+    "Massively Multiplayer",
+    "Adventure",
+    "Indie",
+    "Platformer",
+    "Sports",
+    "Racing",
+    "Simulation",
+    "Arcade",
+    "Casual",
+    "Fighting",
+    "Strategy",
+    "Family",
+    "Educational",
+    "Board Games",
+    "Card",
+  ];
+
+  const platformList = [
+    "PC",
+    "PlayStation",
+    "Xbox",
+    "Apple Macintosh",
+    "Linux",
+    "Nintendo",
+    "Web",
+    "Android",
+    "iOS",
+  ];
+
   // Get list of games
   useEffect(() => {
     const fetchGames = async () => {
@@ -198,6 +232,8 @@ const SearchPage = () => {
     <div className="page-container">
       <div className="search-side-container">
         <FilterPanel
+          genreList={genreList}
+          platformList={platformList}
           genreSelection={fetchFilteredGenre}
           platformSelection={fetchFilteredPlatform}
         />

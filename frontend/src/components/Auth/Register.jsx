@@ -13,7 +13,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password: "",
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password } = formData;
   const navigate = useNavigate(); // Using useNavigate hook
 
   const onChange = (e) =>
@@ -58,7 +58,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             />
             <label>Password</label>
           </div>
-
           <button type="submit" className="button">
             Sign Up
           </button>

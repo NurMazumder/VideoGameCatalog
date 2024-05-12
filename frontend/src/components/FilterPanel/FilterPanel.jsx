@@ -3,43 +3,10 @@ import "./FilterPanel.css";
 import { useLocation } from "react-router-dom";
 
 const FilterPanel = (props) => {
-  const { genreSelection, platformSelection } = props;
+  const { genreList, platformList, genreSelection, platformSelection } = props;
   const [genreInput, setGenreInput] = useState([]);
   const [platformInput, setPlatformInput] = useState([]);
   const location = useLocation();
-  const genreList = [
-    "Shooter",
-    "Puzzle",
-    "Action",
-    "RPG",
-    "Massively Multiplayer",
-    "Adventure",
-    "Indie",
-    "Platformer",
-    "Sports",
-    "Racing",
-    "Simulation",
-    "Arcade",
-    "Casual",
-    "Fighting",
-    "Strategy",
-    "Family",
-    "Educational",
-    "Board Games",
-    "Card",
-  ];
-
-  const platformList = [
-    "PC",
-    "PlayStation",
-    "Xbox",
-    "Apple Macintosh",
-    "Linux",
-    "Nintendo",
-    "Web",
-    "Android",
-    "iOS",
-  ];
 
   // Handle genre checkbox inputs
   const handleGenre = (e) => {

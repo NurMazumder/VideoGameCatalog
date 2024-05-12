@@ -14,6 +14,7 @@ import MockAdapter from "axios-mock-adapter";
 import Review from "../../components/Review/Review";
 
 const mockStore = configureStore([]);
+jest.mock("../../actions/alert", () => () => <div>Alert Message</div>);
 const mockReviews = [
   {
     _id: "1",
@@ -35,12 +36,6 @@ describe("Review Component", () => {
     mock = new MockAdapter(axios);
   });
 
-  const originalConsoleError = console.error;
-  afterEach(() => {
-    console.error = originalConsoleError;
-    mock.restore();
-  });
-
   it("Renders review component correctly when logged in", async () => {
     const store = mockStore({
       auth: {
@@ -51,13 +46,14 @@ describe("Review Component", () => {
         },
       },
     });
-    mock.onGet("/api/games/review/123").reply(200, mockReviews);
+    const setAlert = jest.fn();
+    mock.onGet("/api/reviews/game/123").reply(200, mockReviews);
     await act(
       (async = () => {
         render(
           <Provider store={store}>
             <Router>
-              <Review gameId="123" />
+              <Review gameId="123" setAlert={setAlert} />
             </Router>
           </Provider>
         );
@@ -82,13 +78,14 @@ describe("Review Component", () => {
     const store = mockStore({
       auth: { isAuthenticated: false },
     });
-    mock.onGet("/api/games/review/123").reply(200, mockReviews);
+    const setAlert = jest.fn();
+    mock.onGet("/api/reviews/game/123").reply(200, mockReviews);
     await act(
       (async = () => {
         render(
           <Provider store={store}>
             <Router>
-              <Review gameId="123" />
+              <Review gameId="123" setAlert={setAlert} />
             </Router>
           </Provider>
         );
@@ -109,13 +106,14 @@ describe("Review Component", () => {
     const store = mockStore({
       auth: { isAuthenticated: true },
     });
-    mock.onGet("/api/games/review/123").reply(200, mockReviews);
+    const setAlert = jest.fn();
+    mock.onGet("/api/reviews/game/123").reply(200, mockReviews);
     await act(
       (async = () => {
         render(
           <Provider store={store}>
             <Router>
-              <Review gameId="123" />
+              <Review gameId="123" setAlert={setAlert} />
             </Router>
           </Provider>
         );
@@ -134,13 +132,14 @@ describe("Review Component", () => {
     const store = mockStore({
       auth: { isAuthenticated: true },
     });
-    mock.onGet("/api/games/review/123").reply(200, mockReviews);
+    const setAlert = jest.fn();
+    mock.onGet("/api/reviews/game/123").reply(200, mockReviews);
     await act(
       (async = () => {
         render(
           <Provider store={store}>
             <Router>
-              <Review gameId="123" />
+              <Review gameId="123" setAlert={setAlert} />
             </Router>
           </Provider>
         );
@@ -153,9 +152,10 @@ describe("Review Component", () => {
     fireEvent.change(reviewInput, { target: { value: "    " } });
     expect(reviewInput.value).toBe("    ");
     fireEvent.click(submitButton);
-    expect(
-      screen.getByText("Review body cannot be empty.")
-    ).toBeInTheDocument();
+    expect(setAlert).toHaveBeenCalledWith(
+      "Review body cannot be empty.",
+      "warning"
+    );
   });
   it("Successfully submits a review", async () => {
     const store = mockStore({
@@ -167,8 +167,9 @@ describe("Review Component", () => {
         },
       },
     });
-    mock.onGet("/api/games/review/123").reply(200, mockReviews);
-    mock.onPost("/api/games/review/123").reply(200, [
+    const setAlert = jest.fn();
+    mock.onGet("/api/reviews/game/123").reply(200, mockReviews);
+    mock.onPost("/api/reviews/game/123").reply(200, [
       ...mockReviews,
       {
         _id: "3",
@@ -182,7 +183,7 @@ describe("Review Component", () => {
         render(
           <Provider store={store}>
             <Router>
-              <Review gameId="123" />
+              <Review gameId="123" setAlert={setAlert} />
             </Router>
           </Provider>
         );
@@ -207,7 +208,6 @@ describe("Review Component", () => {
       ).toBeInTheDocument();
     });
   });
-  /*
   it("Deletes review when logged in", async () => {
     const store = mockStore({
       auth: {
@@ -218,8 +218,9 @@ describe("Review Component", () => {
         },
       },
     });
-    mock.onGet("/api/games/review/123").reply(200, mockReviews);
-    mock.onDelete("/api/games/review/123").reply(200, [
+    const setAlert = jest.fn();
+    mock.onGet("/api/reviews/game/123").reply(200, mockReviews);
+    mock.onDelete("/api/reviews/game/123/1").reply(200, [
       {
         _id: "2",
         author: { name: "Jane Smith", _id: "1" },
@@ -232,7 +233,7 @@ describe("Review Component", () => {
         render(
           <Provider store={store}>
             <Router>
-              <Review gameId="123" />
+              <Review gameId="123" setAlert={setAlert} />
             </Router>
           </Provider>
         );
@@ -247,5 +248,4 @@ describe("Review Component", () => {
       expect(screen.getByText(/Could be better./)).toBeInTheDocument();
     });
   });
-  */
 });

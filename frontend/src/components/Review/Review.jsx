@@ -101,8 +101,8 @@ const Review = ({ gameId, setAlert }) => {
           {reviews.map((review) => (
             <div key={review._id} className="review">
               <p>
-                {review.body} <FontAwesomeIcon icon={faStar} /> {review.rating}
-                /5
+                <strong>{review.author.name}</strong>: {review.body}{" "}
+                <FontAwesomeIcon icon={faStar} /> {review.rating}/5
               </p>
               {isAuthenticated && user && user._id === review.author._id && (
                 <button
