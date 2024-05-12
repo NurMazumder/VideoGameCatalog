@@ -47,7 +47,7 @@ describe("Game Page", () => {
       );
     });
     expect(screen.getByText("Mock Game")).toBeInTheDocument();
-    expect(screen.getByText("Release Date: 2022-01-01")).toBeInTheDocument();
+    expect(screen.getByText("2022-01-01")).toBeInTheDocument();
     expect(screen.getByText(/Genres:/i)).toBeInTheDocument();
     expect(screen.getByText("Action")).toBeInTheDocument();
     expect(screen.getByText("Adventure")).toBeInTheDocument();
