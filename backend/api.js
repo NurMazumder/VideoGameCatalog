@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const API_KEY = "";
+const API_KEY = process.env.RAWG_API_KEY;
 const URL = "https://api.rawg.io/api/games";
 
 // Function for fetching data in specific page; max avaliable per page/call is 40

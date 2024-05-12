@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Game = require("../../models/Game");
+const API_KEY = process.env.RAWG_API_KEY;
 
 // @route   GET api/games
 // @review  Get a list of all video games
@@ -165,7 +166,7 @@ router.get("/shooter", async (req, res) => {
   }
 });
 
-// @route   GET api/games/:id
+// @route   GET api/games/id/:id
 // @review  Get details of a specific video game by its id
 // @access  Public
 router.get("/id/:id", async (req, res) => {
@@ -174,9 +175,15 @@ router.get("/id/:id", async (req, res) => {
     if (!game) {
       return res.status(404).json({ msg: "Video game not found" });
     }
-    /*if (game.game_description.length === 0) {
-      // Fetch data from RAWG and add to db
-    }*/
+    if (!game.game_description || game.game_description.length === 0) {
+      const response = await fetch(
+        `https://api.rawg.io/api/games/${req.params.id}?key=${API_KEY}`
+      );
+      const json = await response.json();
+      game.game_description = json.description_raw || "";
+      game.game_website = json.website;
+      await game.save();
+    }
     res.json(game);
   } catch (err) {
     console.error(err.message);

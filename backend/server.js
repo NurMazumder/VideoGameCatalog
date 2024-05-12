@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const cors = require("cors");
 const path = require("node:path");
+require("dotenv").config();
 
 const app = express();
 
@@ -19,7 +20,6 @@ app.use("/api/videogames", require("./routes/api/videogames"));
 app.use("/api/games", require("./routes/api/games"));
 app.use("/api/reviews", require("./routes/api/reviews"));
 app.use("/api/wishlist", require("./routes/api/wishlist"));
-
 //serve static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/dist"));
