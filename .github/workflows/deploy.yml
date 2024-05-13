@@ -1,0 +1,70 @@
+# This workflow will deploy the application to the running environment after a successful merge to main
+
+name: deploy
+
+on:
+    workflow_run:
+        workflows: [test] # Triggered by the test workflow
+        types: [completed] # The test workflow must complete
+        branches: [main] # Only when main is updated
+
+jobs:
+    on-success:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }} # Only when test completed successfully 
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Install frontend dependencies
+              working-directory: frontend
+              run: |
+                npm install
+      
+            - name: Install backend dependencies
+              working-directory: backend
+              run: |
+                npm install
+            
+            - name: Build frontend
+              working-directory: frontend
+              run: 
+                npm run build
+            
+            #- name: Running both frontend and backend concurrently
+            #  working-directory: VideoGameCatalog
+            #  run: 
+            #    npm run dev
+
+            #- name: Prepare vgc
+            #  run: |
+            #    vgc translations compile
+
+            - name: Build binary distribution and upload to artifactory
+              run: zip -r "vgc-${{github.sha}}.zip" backend frontend
+
+            - name: Upload application artifact
+              uses: actions/upload-artifact@v3
+              with:
+                name: vgc-app-artifact
+                path: vgc-${{github.sha}}.zip
+
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+                aws-region: "us-east-1" 
+
+            - name: Upload application file to AWS
+              run: aws s3 cp vgc-${{github.sha}}.zip s3://terraform-state-vgc1-cwang006
+
+            - name: Create new application version
+              run: |  
+                aws elasticbeanstalk create-application-version \
+                --application-name vgc \
+                --source-bundle S3Bucket="terraform-state-vgc1-cwang006",S3Key="vgc-${{github.sha}}.zip " \
+                --version-label "ver-${{ github.sha }}" \
+                --description "commit-sha-${{ github.sha }}"
+
+            - name: Deploy application
+              run: aws elasticbeanstalk update-environment --environment-name vgc-environment --version-label "ver-${{ github.sha }}"
