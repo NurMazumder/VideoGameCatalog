@@ -16,6 +16,9 @@ const GameSchema = new Schema({
   game_background_image: {
     type: String,
   },
+  game_website: {
+    type: String,
+  },
   game_genres: {
     genreId: {
       type: Number,
@@ -49,6 +52,20 @@ const GameSchema = new Schema({
   game_esrb: {
     type: String,
   },
+  game_developers: {
+    developerId: {
+      type: Number,
+      unique: true,
+    },
+    developerName: String,
+  },
+  game_publisher: {
+    publisherId: {
+      type: Number,
+      unique: true,
+    },
+    publisherName: String,
+  },
   reviews: [
     {
       type: Schema.Types.ObjectId,
@@ -57,4 +74,4 @@ const GameSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("gamestests", GameSchema, "gamestests");
+module.exports = mongoose.model("Game", GameSchema, "gamestests");

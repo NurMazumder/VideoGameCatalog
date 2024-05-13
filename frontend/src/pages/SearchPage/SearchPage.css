@@ -8,7 +8,7 @@
 .search-page-container {
   flex: 1;
   overflow-y: scroll;
-  padding: 10px;
+  padding: 5px;
   height: 100vh;
 }
 
@@ -21,21 +21,12 @@
   color: #ffffff;
 }
 
-.search-header {
-  color: antiquewhite;
-  padding-bottom: 5px;
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-}
-
 .pagination {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-around;
 }
 
 .pagination-form {
@@ -49,6 +40,8 @@
   border: 2px solid white;
   color: white;
   padding: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #pagination-button:hover {

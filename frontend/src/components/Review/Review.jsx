@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import "./Review.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
+import { setAlert } from "../../actions/alert";
+import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-const Review = ({ gameId }) => {
+const Review = ({ gameId, setAlert }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewBody, setReviewBody] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
-  const [error, setError] = useState("");
   const user = useSelector((state) => state.auth.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
@@ -20,53 +20,47 @@ const Review = ({ gameId }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`/api/games/review/${gameId}`);
+      const response = await axios.get(`/api/reviews/game/${gameId}`);
       setReviews(response.data);
     } catch (error) {
-      console.error("Error fetching reviews:", error.message);
+      setAlert("Error fetching reviews!", "danger");
     }
   };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!reviewBody.trim()) {
-      setError("Review body cannot be empty.");
+      setAlert("Review body cannot be empty.", "warning");
       return;
     }
     try {
-      const response = await axios.post(`/api/games/review/${gameId}`, {
+      const response = await axios.post(`/api/reviews/game/${gameId}`, {
         body: reviewBody,
         rating: reviewRating,
       });
       setReviewBody("");
       setReviewRating(5);
       setReviews(response.data);
-      setError("");
+      setAlert("Review submitted successfully!", "success");
     } catch (error) {
-      setError("Error posting review");
-      console.error("Error posting review:", error.message);
+      setAlert("Error posting review!", "danger");
     }
   };
 
   const handleDeleteReview = async (reviewId) => {
     try {
       const response = await axios.delete(
-        `/api/games/review/${gameId}/${reviewId}`
+        `/api/reviews/game/${gameId}/${reviewId}`
       );
       setReviews(response.data);
+      setAlert("Review deleted successfully!", "success");
     } catch (error) {
-      const errorMessage =
-        error.response && error.response.data && error.response.data.msg
-          ? error.response.data.msg
-          : "Error deleting review";
-      console.error("Error deleting review:", errorMessage);
+      setAlert("Failed to delete review!", "danger");
     }
   };
 
   return (
-
     <div>
-
       {isAuthenticated ? (
         <div className="container" id="bigcontainer">
           <h3 className="r">Leave a Review</h3>
@@ -92,7 +86,6 @@ const Review = ({ gameId }) => {
             <button type="submit">Submit Review</button>
           </form>
         </div>
-
       ) : (
         <div className="container" id="bigcontainer">
           <h2 className="r">Post a Review</h2>
@@ -103,18 +96,19 @@ const Review = ({ gameId }) => {
         </div>
       )}
       {reviews.length > 0 ? (
-
         <div className="container" id="bigcontainer">
-          {error && <div className="error-message">{error}</div>}
           <h3 className="Reviews">Reviews</h3>
           {reviews.map((review) => (
             <div key={review._id} className="review">
               <p>
-                <strong>{review.author.name}</strong>: {review.body}  <FontAwesomeIcon icon={faStar} />  {" "}
-                {review.rating}/5
+                <strong>{review.author.name}</strong>: {review.body}{" "}
+                <FontAwesomeIcon icon={faStar} /> {review.rating}/5
               </p>
               {isAuthenticated && user && user._id === review.author._id && (
-                <button className="delete" onClick={() => handleDeleteReview(review._id)}>
+                <button
+                  className="delete"
+                  onClick={() => handleDeleteReview(review._id)}
+                >
                   Delete
                 </button>
               )}
@@ -130,4 +124,4 @@ const Review = ({ gameId }) => {
   );
 };
 
-export default Review;
+export default connect(null, { setAlert })(Review);

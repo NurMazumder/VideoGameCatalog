@@ -10,8 +10,6 @@ const SearchPage = () => {
   const [gamesList, setGamesList] = useState([]);
   const [gameRows, setGameRows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [genres, setGenres] = useState([]);
-  const [platforms, setPlatforms] = useState([]);
   const [filteredGamesList, setFilteredGamesList] = useState([]);
   const [filteredGenres, setFilteredGenres] = useState([]);
   const [filteredPlatforms, setFilteredPlatforms] = useState([]);
@@ -23,6 +21,40 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(filteredGamesList.length / 40);
   const [pageInput, setPageInput] = useState(1);
+
+  const genreList = [
+    "Shooter",
+    "Puzzle",
+    "Action",
+    "RPG",
+    "Massively Multiplayer",
+    "Adventure",
+    "Indie",
+    "Platformer",
+    "Sports",
+    "Racing",
+    "Simulation",
+    "Arcade",
+    "Casual",
+    "Fighting",
+    "Strategy",
+    "Family",
+    "Educational",
+    "Board Games",
+    "Card",
+  ];
+
+  const platformList = [
+    "PC",
+    "PlayStation",
+    "Xbox",
+    "Apple Macintosh",
+    "Linux",
+    "Nintendo",
+    "Web",
+    "Android",
+    "iOS",
+  ];
 
   // Get list of games
   useEffect(() => {
@@ -57,10 +89,10 @@ const SearchPage = () => {
 
   // Fetch games based on genres
   const fetchFilteredGenre = async (selectedGenres) => {
+    setIsLoading(true);
     if (selectedGenres.length !== 0) {
       setIsSelected({ ...isSelected, genreSelected: true });
       try {
-        setIsLoading(true);
         const response = await fetch(
           `/api/games/search/genre/${selectedGenres.join(" ")}`
         );
@@ -80,10 +112,10 @@ const SearchPage = () => {
 
   // Fetch games based on platforms
   const fetchFilteredPlatform = async (selectedPlatforms) => {
+    setIsLoading(true);
     if (selectedPlatforms.length !== 0) {
       setIsSelected({ ...isSelected, platformSelected: true });
       try {
-        setIsLoading(true);
         const response = await fetch(
           `/api/games/search/platform/${selectedPlatforms.join(" ")}`
         );
@@ -129,7 +161,7 @@ const SearchPage = () => {
     };
     filteredGames();
     setCurrentPage(1);
-  }, [filteredGenres, filteredPlatforms, gamesList]);
+  }, [filteredGenres, filteredPlatforms, isSelected, gamesList]);
 
   // Organize games into rows of 4
   useEffect(() => {
@@ -145,7 +177,7 @@ const SearchPage = () => {
     setGameRows(organizeGamesToRows());
     setIsLoading(false);
   }, [filteredGamesList, currentPage]);
-
+  /*
   // Get genres and platforms of the game list
   useEffect(() => {
     const populateGameData = () => {
@@ -163,7 +195,7 @@ const SearchPage = () => {
       setPlatforms(Object.keys(platformMap));
     };
     populateGameData();
-  }, [gamesList]);
+  }, [gamesList]);*/
 
   // Change the page
   const handlePageButton = (page) => {
@@ -185,7 +217,7 @@ const SearchPage = () => {
       inputValue < 1 ||
       inputValue === currentPage
     ) {
-      alert("Invalid page number");
+      alert("Invalid page input.");
       return;
     }
     setIsLoading(true);
@@ -200,8 +232,8 @@ const SearchPage = () => {
     <div className="page-container">
       <div className="search-side-container">
         <FilterPanel
-          genreList={genres}
-          platformList={platforms}
+          genreList={genreList}
+          platformList={platformList}
           genreSelection={fetchFilteredGenre}
           platformSelection={fetchFilteredPlatform}
         />
@@ -210,10 +242,6 @@ const SearchPage = () => {
         <Loading />
       ) : (
         <div className="search-page-container">
-          <div className="search-header">
-            <h2 className="mr-auto">Games Found: {filteredGamesList.length}</h2>
-            <h2>Pages Found: {totalPages} </h2>
-          </div>
           <table className="search-table" ref={searchPageRef}>
             <tbody>
               {gameRows &&
@@ -235,8 +263,9 @@ const SearchPage = () => {
           </table>
           {totalPages === 1 ? null : (
             <div className="pagination">
+              <h2>Games Found: {filteredGamesList.length}</h2>
               {totalPages < 10 ? (
-                <>
+                <div>
                   {Array.from({ length: totalPages }, (_, index) => {
                     const pageNumber = index + 1;
                     return (
@@ -252,11 +281,10 @@ const SearchPage = () => {
                       </button>
                     );
                   })}
-                </>
+                </div>
               ) : (
                 <div className="flex flex-col items-center justify-center">
                   <h2>Current Page Number: {currentPage}</h2>
-
                   <form className="pagination-form" onSubmit={handlePageSearch}>
                     <input
                       id="page-input"
@@ -271,6 +299,7 @@ const SearchPage = () => {
                   </form>
                 </div>
               )}
+              <h2>Pages Found: {totalPages} </h2>
             </div>
           )}
         </div>

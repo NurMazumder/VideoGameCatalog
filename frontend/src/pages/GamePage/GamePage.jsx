@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import "./GamePage.css";
+import { useParams } from "react-router-dom";
 import Review from "../../components/Review/Review";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import Loading from "../../components/Loading/Loading";
 import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 const GamePage = ({ setAlert }) => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const GamePage = ({ setAlert }) => {
         const json = await response.json();
         setGameDetails(json);
       } catch (error) {
-        console.error("Error fetching game:", error);
+        setAlert("Failed fetching game details.", "danger");
       } finally {
         setLoading(false);
       }
@@ -38,9 +39,15 @@ const GamePage = ({ setAlert }) => {
         },
         body: JSON.stringify({ gameId: id }),
       });
-      setAlert("Game added to wishlist successfully!", "success");
+      if (response.status === 200) {
+        setAlert("Game added to wishlist successfully!", "success");
+      } else {
+        setAlert(
+          "User must be logged in and not have the game already added to their list.",
+          "warning"
+        );
+      }
     } catch (error) {
-      console.error("Error adding game to wishlist:", error);
       setAlert("Failed to add game to wishlist", "danger");
     }
   };
@@ -82,6 +89,36 @@ const GamePage = ({ setAlert }) => {
                     </span>
                   </span>
                 </div>
+                <div className="tag-container field-name">
+                  Release Date:
+                  <span className="tags">
+                    <span className="tag">
+                      <span className="name">
+                        {gameDetails.game_released.substring(0, 10)}
+                      </span>
+                    </span>
+                  </span>
+                </div>
+                <div className="tag-container field-name">
+                  Website Link:
+                  <span className="tags">
+                    <span className="tag">
+                      <Link to={gameDetails.game_website} className="name">
+                        {gameDetails.game_website}
+                      </Link>
+                    </span>
+                  </span>
+                </div>
+                <div className="tag-container field-name">
+                  Source of data:{" "}
+                  <Link
+                    to="https://rawg.io/apidocs"
+                    className="tag"
+                    id="rawg-link"
+                  >
+                    https://rawg.io/apidocs
+                  </Link>
+                </div>
               </div>
             </div>
             <div id="info-block">
@@ -120,27 +157,19 @@ const GamePage = ({ setAlert }) => {
                       ))}
                     </span>
                   </div>
-                  <div className="tag-container field-name">
-                    <span className="tags">
-                      Release Date: {gameDetails.game_released.substring(0, 10)}
-                    </span>
-                  </div>
                 </section>
                 <div className="buttons">
                   <a className="btn btn-primary btn-disabled tooltip">
                     <button onClick={handleAddToWishlist}>
                       Add to wishlist
                     </button>
-                    <div className="top">
-                      You need to log in to add to Wishlist!<i></i>
-                    </div>
                   </a>
                 </div>
               </div>
             </div>
           </div>
           <div className="container" id="bigcontainer">
-            <h2 className="d">Description</h2>
+            <h2 className="desc">Description</h2>
             <p>{gameDetails.game_description}</p>
           </div>
           <div className="container-reviews">

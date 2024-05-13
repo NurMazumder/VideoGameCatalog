@@ -164,9 +164,12 @@
 
 .covertags {
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.container .d {
+.container .desc {
   text-align: center;
   padding-bottom: 10px;
 }
@@ -195,5 +198,10 @@
 }
 
 .prompt a {
+  text-decoration: underline;
+}
+
+#rawg-link:hover {
+  color: white;
   text-decoration: underline;
 }

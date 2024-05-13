@@ -1,0 +1,66 @@
+name: deploy
+
+on:
+  workflow_run:
+    workflows: [test]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install backend dependencies
+        run: |
+          npm install
+
+      - name: Install frontend dependencies and build
+        run: |
+          cd frontend
+          npm install
+          npm run dev
+          cd ..
+
+      - name: Move build to root directory
+        run: |
+          cp -r frontend/build ./build
+
+      - name: Create deployment zip file
+        run: |
+          zip -r "vgc_deploy-${{github.sha}}.zip" . -x "node_modules/*" -x "frontend/node_modules/*" -x ".git/*"
+
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vgc_application_artifact
+          path: vgc_deploy-${{github.sha}}.zip
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+
+      - name: Upload application file to AWS
+        run: aws s3 cp vgc_deploy-${{github.sha}}.zip s3://terraform-vgc-nurmazumder
+
+      - name: Create new application version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name vgc-application \
+            --source-bundle S3Bucket="terraform-vgc-nurmazumder",S3Key="mern_deploy-${{github.sha}}.zip" \
+            --version-label "ver-${{ github.sha }}" \
+            --description "commit-sha-${{ github.sha }}"
+
+      - name: Deploy application
+        run: |
+          aws elasticbeanstalk update-environment --environment-name vgc-environment --version-label "ver-${{ github.sha }}"

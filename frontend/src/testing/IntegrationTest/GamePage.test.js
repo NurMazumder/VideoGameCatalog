@@ -11,7 +11,7 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useParams: jest.fn(),
 }));
-
+jest.mock("../../actions/alert", () => () => <div>Alert Message</div>);
 jest.mock("../../components/Review/Review", () => () => (
   <div>Review Component</div>
 ));
@@ -23,6 +23,7 @@ describe("Game Page", () => {
 
   it("Renders game page with given data", async () => {
     const store = mockStore({});
+    const setAlert = jest.fn();
     useParams.mockReturnValue({ id: "1" });
     global.fetch = jest.fn().mockResolvedValueOnce({
       ok: true,
@@ -40,13 +41,13 @@ describe("Game Page", () => {
       render(
         <Provider store={store}>
           <Router>
-            <GamePage />
+            <GamePage setAlert={setAlert} />
           </Router>
         </Provider>
       );
     });
     expect(screen.getByText("Mock Game")).toBeInTheDocument();
-    expect(screen.getByText("Release Date: 2022-01-01")).toBeInTheDocument();
+    expect(screen.getByText("2022-01-01")).toBeInTheDocument();
     expect(screen.getByText(/Genres:/i)).toBeInTheDocument();
     expect(screen.getByText("Action")).toBeInTheDocument();
     expect(screen.getByText("Adventure")).toBeInTheDocument();
@@ -65,16 +66,13 @@ describe("Game Page", () => {
   });
   it("Renders not found page when fetching returns an error", async () => {
     const store = mockStore({});
+    const setAlert = jest.fn();
     useParams.mockReturnValue({ id: "1" });
-    console.error = jest.fn();
-    global.fetch = jest
-      .fn()
-      .mockRejectedValueOnce(new Error("Failed fetching game"));
     await act(async () => {
       render(
         <Provider store={store}>
           <Router>
-            <GamePage />
+            <GamePage setAlert={setAlert} />
           </Router>
         </Provider>
       );
@@ -85,10 +83,6 @@ describe("Game Page", () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByText("Head back to our main page.")).toBeInTheDocument();
-    expect(console.error).toHaveBeenCalledWith(
-      "Error fetching game:",
-      new Error("Failed fetching game")
-    );
   });
   /*it("Renders the reviews section", async () => {});*/
 });

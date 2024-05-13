@@ -5,7 +5,7 @@
   height: 100vh;
   width: auto;
   overflow-y: scroll;
-  background-color: rgb(146, 141, 130);
+  background-color: rgba(56, 56, 56, 0.7);
 }
 
 .panel-container legend {

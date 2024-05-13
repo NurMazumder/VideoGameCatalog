@@ -13,8 +13,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password: "",
   });
 
-  const { name, email, password, password2 } = formData;
-  const navigate = useNavigate(); // Using useNavigate hook
+  const { name, email, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +27,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   // Redirect if authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/main"); // Redirecting using navigate
+      navigate("/main");
     }
   }, [isAuthenticated, navigate]);
 
@@ -58,7 +58,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             />
             <label>Password</label>
           </div>
-
           <button type="submit" className="button">
             Sign Up
           </button>

@@ -8,11 +8,11 @@ import { login } from "../../actions/auth";
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { email, password } = formData;
-  const navigate = useNavigate(); // Using useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/main"); // Navigate to main page if authenticated
+      navigate("/main");
     }
   }, [isAuthenticated, navigate]);
 
