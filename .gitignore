@@ -34,7 +34,7 @@ override.tf.json
 terraform.rc
 
 
-/config/default.json
-/config/production.json
+/backend/config/default.json
+/backend/config/production.json
 node_modules
 .env
