@@ -4,16 +4,24 @@
   "description": "A video game catalog made with MERN stack.",
   "main": "server.js",
   "scripts": {
-      "test" : "cd frontend && npm run test",
-      "coverage" : "cd frontend && npm run coverage",
-      "start": "node server.js",
-      "server": "nodemon server.js",
-      "backend": "cd backend && npm start",
-      "frontend": "cd frontend && npm run dev",
-      "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-      "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "test": "cd frontend && npm run test",
+    "coverage": "cd frontend && npm run coverage",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "devDependencies": {
-      "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "config": "^3.3.11",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.0.1",
+    "mongoose": "^8.3.4"
   }
 }
