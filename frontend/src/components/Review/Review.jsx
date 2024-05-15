@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { filterBadWords } from "../../utils/bannedWords";
 
 const Review = ({ gameId, setAlert }) => {
   const [reviews, setReviews] = useState([]);
@@ -21,7 +22,11 @@ const Review = ({ gameId, setAlert }) => {
   const fetchReviews = async () => {
     try {
       const response = await axios.get(`/api/reviews/game/${gameId}`);
-      setReviews(response.data);
+      const filteredReviews = response.data.map((review) => ({
+        ...review,
+        body: filterBadWords(review.body),
+      }));
+      setReviews(filteredReviews);
     } catch (error) {
       setAlert("Error fetching reviews!", "danger");
     }
@@ -34,13 +39,19 @@ const Review = ({ gameId, setAlert }) => {
       return;
     }
     try {
+      const filteredReviewBody = filterBadWords(reviewBody);
       const response = await axios.post(`/api/reviews/game/${gameId}`, {
-        body: reviewBody,
+        body: filteredReviewBody,
         rating: reviewRating,
       });
       setReviewBody("");
       setReviewRating(5);
-      setReviews(response.data);
+      setReviews(
+        response.data.map((review) => ({
+          ...review,
+          body: filterBadWords(review.body),
+        }))
+      );
       setAlert("Review submitted successfully!", "success");
     } catch (error) {
       setAlert("Error posting review!", "danger");
@@ -52,7 +63,12 @@ const Review = ({ gameId, setAlert }) => {
       const response = await axios.delete(
         `/api/reviews/game/${gameId}/${reviewId}`
       );
-      setReviews(response.data);
+      setReviews(
+        response.data.map((review) => ({
+          ...review,
+          body: filterBadWords(review.body),
+        }))
+      );
       setAlert("Review deleted successfully!", "success");
     } catch (error) {
       setAlert("Failed to delete review!", "danger");
