@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -7,12 +7,18 @@ import PropTypes from "prop-types";
 import SearchBar from "../SearchBar/SearchBar";
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleLogout = () => {
     logout();
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const authLinks = (
-    <ul>
+    <ul className={isMenuOpen ? "nav-links open" : "nav-links"}>
       <li>
         <Link to="/search">Explore</Link>
       </li>
@@ -31,7 +37,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   const visitorLinks = (
-    <ul>
+    <ul className={isMenuOpen ? "nav-links open" : "nav-links"}>
       <li>
         <Link to="/search">Explore</Link>
       </li>
@@ -50,6 +56,9 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link to={isAuthenticated ? "/main" : "/"}>VGC</Link>
       </h1>
       <SearchBar />
+      <button className="menu-toggle" onClick={toggleMenu}>
+        ☰
+      </button>
       {!loading && (isAuthenticated ? authLinks : visitorLinks)}
     </nav>
   );
